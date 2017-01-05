@@ -1,0 +1,26 @@
+//
+// Responsive Embeds
+// --------------------------------------------------
+.responsive-embed {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+
+    iframe,
+    embed,
+    object{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.responsive-embed-16by9 {
+    padding-bottom: 56.25%;
+}
+
+.responsive-embed-4by3 {
+    padding-bottom: 75%;
+}

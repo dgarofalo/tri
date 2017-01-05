@@ -1,0 +1,68 @@
+//
+// Tray
+// --------------------------------------------------
+
+.ui-tray {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: auto;
+    height: 100%;
+    margin: 0;
+    padding: @tray-container-padding;
+    overflow-y: auto;
+
+    background: @tray-container-background;
+    visibility: hidden;
+    transition: transform .25s cubic-bezier(0.465, 0.183, 0.153, 0.946);
+    transform: translateX(-100%);
+
+    &.stage-right {
+        transform: translateX(100%);
+        left: auto !important;
+        right: 0 !important;
+
+        .btn-close {
+            left: 0;
+            right: auto;
+        }
+    }
+    &.ui-active {
+        transform: translateX(0);
+        -webkit-overflow-scrolling: touch;
+
+        &.stage-left{
+            left: 0 !important;
+            transform: translateX(0);
+        }
+
+        &.stage-right {
+            left: auto !important;
+            right: 0 !important;
+        }
+    }
+    .btn-close {
+        .button-reset();
+        position: absolute;
+        top: 0;
+        left:0;
+    }
+}
+
+.ui-shade{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    opacity: 0;
+    transition: opacity .25s ease-in-out;
+
+    &.ui-active{
+        cursor: pointer;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+        opacity: .15;
+    }
+}

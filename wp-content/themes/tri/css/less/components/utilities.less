@@ -1,0 +1,100 @@
+@import (reference) "mixins";
+@import (reference) "grid";
+
+
+//
+// Utility classes
+// --------------------------------------------------
+
+//Layout Helpers
+.clearfix {
+    *zoom: 1;
+    &:before,
+    &:after {
+        content: " "; // 1
+        display: table; // 2
+        // Fixes Opera/contenteditable bug:
+        // http://nicolasgallagher.com/micro-clearfix-hack/#comment-36952
+        line-height: 0;
+    }
+    &:after {
+        clear: both;
+    }
+}
+.center-text{
+
+}
+.center-block {
+    .center-block();
+}
+.pull-right {
+    float: right !important;
+}
+.pull-left {
+    float: left !important;
+}
+.reset-list{
+    margin-bottom: 0;
+    padding-left: 0;
+    text-indent: 0;
+    list-style: none;
+}
+
+//Vertical Alignment Helper
+.vertical-align {
+    display:table;
+    height:100%;
+    width:100%;
+    margin: 0 auto;
+
+    .vertical-align-inner {
+        display:table-cell;
+        height:100%;
+        width:100%;
+        vertical-align: middle;
+    }
+}
+
+//Content Helpers
+.hide {
+    display: none !important;
+}
+.show {
+    display: block !important;
+}
+.invisible {
+    visibility: hidden;
+}
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+//Responsive Helpers
+.visible-sm,
+.visible-md,
+.visible-lg {
+    display: none !important;
+}
+
+.visible-sm {
+    @media (max-width: @screen-sm) {
+        display: block !important;
+    }
+}
+.visible-md {
+    @media (max-width: @screen-md) {
+        display: block !important;
+    }
+}
+.visible-lg {
+    @media (max-width: @screen-lg) {
+        display: block !important;
+    }
+}

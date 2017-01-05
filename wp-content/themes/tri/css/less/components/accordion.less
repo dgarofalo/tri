@@ -1,0 +1,78 @@
+//
+// Accordion
+// --------------------------------------------------
+
+//
+// Define Accordion
+// --------------------------------------------------
+.ui-accordion {
+    margin-bottom: @line-height-computed;
+
+    .accordion-item{
+        border-bottom: 1px solid @brand-secondary;
+
+        &:first-child{
+            border-top: 1px solid @brand-secondary;
+        }
+    }
+    .accordion-header {
+        position: relative;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+
+        .button-reset();
+        padding: @accordion-trigger-padding;
+        background-color: @accordion-trigger-bg;
+        color: @accordion-trigger-color;
+
+        outline: none;
+        width: 100%;
+
+        &:after{
+            .icon;
+            content: "\f107";
+            position: absolute;
+            top: 50%;
+            right: @line-height-computed;
+            transform: translate(0, -50%); //center vertically with unknown height
+        }
+        &.ui-active{
+            &:after{
+                content: "\f106";
+            }
+        }
+    }
+    .accordion-content {
+        overflow: hidden;
+        height: 0;
+        border-bottom: 1px solid transparent;
+
+        &.ui-transitioning{
+            transition: height 0.5s ease-in-out;
+        }
+        &.ui-inactive {
+            height: 0!important;
+        }
+        &.ui-active{
+            .accordion-content-inner{
+                opacity: 1;
+            }
+        }
+    }
+    .accordion-content-inner{
+        padding: @line-height-computed;
+        transition: opacity 0.5s ease-in-out .25s;
+        opacity: 0;
+    }
+}
+
+@media screen and (max-width: @grid-float-breakpoint){
+    //
+    // Mobile Accordion
+    // --------------------------------------------------
+    .ui-mobile-accordion{
+        .ui-accordion;
+    }
+}

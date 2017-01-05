@@ -1,0 +1,129 @@
+//
+// Custom Selects
+// --------------------------------------------------
+
+//
+// Define Custom Selects
+// --------------------------------------------------
+.custom-styled-select {
+    position: relative;
+    width: 100%;
+    z-index: 3;
+
+    &:nth-of-type(2n) {
+	    z-index: 2; 
+    }
+    &:nth-of-type(3n) {
+	    z-index: 1; 
+    }
+    .outer{
+        width: 100%;
+        padding: @select-padding;
+        font-size: @select-font-size;
+        line-height: @select-line-height;
+        border: @select-border;
+        border-radius: @select-border-radius;
+
+        color: @select-color;
+        background-color: @select-bg;
+        
+        &:after{
+            position: absolute;
+            top: 0;
+            right: 0;
+            line-height: @select-line-height;
+            padding: 20px 28px;
+            color: @select-icon-color;
+            content: @select-icon;
+            &:extend(.icon);
+            font-size: 14px;
+            transition: transform 187ms;
+        }
+        &.open {
+	        &:after {
+		        transform: rotate(-180deg);
+	        }
+        }
+    }
+    .inner {
+        vertical-align: top;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        font-size: 14px;
+    }
+    select{
+        -webkit-appearance: none;
+        width: 100%;
+        height: @select-height;
+        font-size: 14px;
+    }
+    &.disabled{
+        select{
+            cursor: not-allowed;
+        }
+        .outer {
+            opacity: .5;
+        }
+    }
+    &.with-custom-options {
+        select {
+            opacity: 0;
+            height: 1px;
+            width: 1px;
+        }
+        .custom-options {
+            position: absolute;
+            z-index: 10;
+            top: 55px;
+            left: 0;
+            z-index: 100;
+            width: 100%;
+            max-height: 500px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            padding: 18px 28px;
+            margin-bottom: 0;
+            list-style: none;
+            border: 1px solid @select-border-color;
+            background: #ffffff;
+            font-size: 14px;
+
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 375ms cubic-bezier(0.0, 0.0, 0.2, 1), visibility 375ms cubic-bezier(0.0, 0.0, 0.2, 1);
+
+            &.open {
+                visibility: visible;
+                opacity: 1;
+            }
+            &.overflowing {
+                //top: auto;
+                //bottom: 55px;
+            }
+            li {
+                padding: 7px 0;
+                transition: all 150ms ease-out;
+                cursor: pointer;
+
+                &:hover {
+                    color: @brand-primary;
+                }
+                &.selected {
+                    color: @brand-primary;
+                }
+                &.activated {
+                    color: @brand-primary;
+                }
+            }
+        }
+    }
+}
+.mobile-browser {
+	.custom-styled-select.with-custom-options {
+		 .custom-options.open {
+			 visibility: hidden;
+		 }
+	 }
+}

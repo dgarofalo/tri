@@ -1,0 +1,48 @@
+//
+// Custom Selects
+// --------------------------------------------------
+
+//
+// Define Custom Selects
+// --------------------------------------------------
+.custom-styled-input {
+    position: relative;
+    width: 100%;
+    text-align: left;
+
+    .label{
+        color: @brand-primary;
+        font-weight: bold;
+        display: block;
+        line-height: 56px;
+
+        &:before{
+            display: inline-block;
+            &:extend(.icon);
+            content: "\e904";
+            font-size: 24px;
+            vertical-align: middle;
+            margin-right: .5em;
+        }
+    }
+    .file-name{
+        display: block;
+        font-size: 12px;
+    }
+    .custom-input{
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        height: 56px;
+    }
+    &.disabled{
+        input{
+            cursor: not-allowed;
+        }
+        .outer {
+            opacity: .5;
+        }
+    }
+}

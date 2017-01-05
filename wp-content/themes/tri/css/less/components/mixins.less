@@ -1,0 +1,346 @@
+//
+// Mixins
+// --------------------------------------------------
+
+//
+// Single side border-radius
+// --------------------------------------------------
+
+.border-top-radius(@radius) {
+    border-top-right-radius: @radius;
+    border-top-left-radius: @radius;
+}
+
+.border-right-radius(@radius) {
+    border-bottom-right-radius: @radius;
+    border-top-right-radius: @radius;
+}
+
+.border-bottom-radius(@radius) {
+    border-bottom-right-radius: @radius;
+    border-bottom-left-radius: @radius;
+}
+
+.border-left-radius(@radius) {
+    border-bottom-left-radius: @radius;
+    border-top-left-radius: @radius;
+}
+
+// Placeholder text
+.placeholder(@color: @input-color-placeholder) {
+    &:-moz-placeholder            { color: @color; } // Firefox 4-18
+    &::-moz-placeholder           { color: @color; } // Firefox 19+
+    &:-ms-input-placeholder       { color: @color; } // Internet Explorer 10+
+    &::-webkit-input-placeholder  { color: @color; } // Safari and Chrome
+}
+
+// Resize anything
+.resizable(@direction) {
+    resize: @direction; // Options: horizontal, vertical, both
+    overflow: auto; // Safari fix
+}
+
+// CSS3 Content Columns
+.content-columns(@width, @count, @gap) {
+    column-width: @width;
+    column-count: @count;
+    column-gap: @gap;
+}
+
+// Optional hyphenation
+.hyphens(@mode: auto) {
+    word-wrap: break-word;
+    hyphens: @mode;
+}
+
+// Gradients
+#gradient {
+    .horizontal(@startColor: #555, @endColor: #333) {
+        background-color: @endColor;
+        background-image: linear-gradient(to right, @startColor, @endColor); // Standard, IE10
+        background-repeat: repeat-x;
+    }
+
+    .vertical(@startColor: #555, @endColor: #333) {
+        background-color: @endColor;
+        background-image: linear-gradient(to bottom, @startColor, @endColor); // Standard, IE10
+        background-repeat: repeat-x;
+    }
+
+    .directional(@startColor: #555, @endColor: #333, @deg: 45deg) {
+        background-color: @endColor;
+        background-repeat: repeat-x;
+        background-image: linear-gradient(@deg, @startColor, @endColor); // Standard, IE10
+    }
+
+    .horizontal-three-colors(@startColor: #00b3ee, @midColor: #7a43b6, @colorStop: 50%, @endColor: #c3325f) {
+        background-color: mix(@midColor, @endColor, 80%);
+        background-image: linear-gradient(to right, @startColor, @midColor @colorStop, @endColor);
+        background-repeat: no-repeat;
+    }
+    .vertical-three-colors(@startColor: #00b3ee, @midColor: #7a43b6, @colorStop: 50%, @endColor: #c3325f) {
+        background-color: mix(@midColor, @endColor, 80%);
+        background-image: linear-gradient(@startColor, @midColor @colorStop, @endColor);
+        background-repeat: no-repeat;
+    }
+    .radial(@innerColor: #555, @outerColor: #333) {
+        background-color: @outerColor;
+        background-image: -webkit-gradient(radial, center center, 0, center center, 460, from(@innerColor), to(@outerColor));
+        background-image: -webkit-radial-gradient(circle, @innerColor, @outerColor);
+        background-image: -moz-radial-gradient(circle, @innerColor, @outerColor);
+        background-image: -o-radial-gradient(circle, @innerColor, @outerColor);
+        background-repeat: no-repeat;
+    }
+    .striped(@color: #555, @angle: 45deg) {
+        background-color: @color;
+        background-image: linear-gradient(@angle, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+    }
+}
+
+// Reset filters for IE
+//
+// Useful for when you want to remove a gradient from an element.
+.reset-filter() {
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(enabled = false)"));
+}
+
+// Center-align a block level element
+.center-block() {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// Sizing shortcuts
+.size(@width, @height) {
+    width: @width;
+    height: @height;
+}
+
+.square(@size) {
+    .size(@size, @size);
+}
+
+// Text overflow
+//
+// Requires inline-block or block for proper styling
+.text-truncate() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// CSS Calc Helper
+.calc-helper(@property; @fallbackWidth; @formula) {
+    @{property}: @fallbackWidth;
+    @{property}: calc(@formula);
+}
+
+
+// Triangles
+
+// Triangles and arrows
+.triangle-props {
+    content: "";
+    display: block;
+    position: absolute;
+}
+
+.triangle-upper-left(@size; @color) {
+    border-color: @color transparent transparent @color;
+    border-style: solid;
+    border-width: @size @size 0 1px;
+    .triangle-props();
+}
+
+.triangle-upper-right(@size; @color) {
+    border-color: @color transparent @color transparent;
+    border-style: solid;
+    border-width: @size 0 0 @size;
+    .triangle-props();
+}
+
+.triangle-lower-right(@size; @color) {
+    border-color: transparent @color @color transparent;
+    border-style: solid;
+    border-width: 0 0 @size @size;
+    .triangle-props();
+}
+
+.triangle-lower-left(@size; @color) {
+    border-color: @color transparent @color transparent;
+    border-style: solid;
+    border-width: 0 @size @size 0;
+    .triangle-props();
+}
+
+.triangle-down(@size; @color) {
+    border-color: @color transparent transparent;
+    border-style: solid;
+    border-width: @size @size 0 @size;
+    .triangle-props();
+}
+
+.arrow-left(@size; @color; @width; @height) {
+    border-top: @size solid transparent;
+    border-bottom: @size solid transparent;
+    border-right: @size solid @color;
+    width: @width;
+    height: @height;
+    .triangle-props();
+}
+
+.arrow-right(@size; @color; @width; @height) {
+    border-top: @size solid transparent;
+    border-bottom: @size solid transparent;
+    border-left: @size solid @color;
+    width: @width;
+    height: @height;
+    .triangle-props();
+}
+
+.arrow-up(@size; @color; @width; @height) {
+    border-left: @size solid transparent;
+    border-right: @size solid transparent;
+    border-bottom: @size solid @color;
+    width: @width;
+    height: @height;
+    .triangle-props();
+}
+
+.arrow-down(@size; @color; @width; @height) {
+    border-left: @size solid transparent;
+    border-right: @size solid transparent;
+    border-top: @size solid @color;
+    width: @width;
+    height: @height;
+    .triangle-props();
+}
+
+// Extensions Left/Right
+.extend-left(@color; @height; @width: 100%) {
+    &:before {
+        background-color: @color;
+        content: "";
+        left: -@width;
+        top: 0;
+        position: absolute;
+        height: @height;
+        width: @width;
+        z-index: 1;
+    }
+}
+.extend-right(@color; @height; @width: 100%) {
+    &:after {
+        background-color: @color;
+        content: "";
+        right: -@width;
+        top: 0;
+        position: absolute;
+        height: @height;
+        width: @width;
+        z-index: 1;
+    }
+}
+
+//Media Queries
+.max-w(@width; @rules) {
+    @media screen and (max-width: @width) {
+        @rules();
+    }
+}
+.min-w(@width; @rules) {
+    @media screen and (min-width: @width) {
+        @rules();
+    }
+}
+.max-h(@height; @rules) {
+    @media screen and (max-height: @height) {
+        @rules();
+    }
+}
+.min-h(@height; @rules) {
+    @media screen and (min-height: @height) {
+        @rules();
+    }
+}
+//Animations
+.animated (@time: .2s) {
+        animation-duration: @time;
+        animation-fill-mode: both;
+}
+.setup-fadeInLeft() {
+    @keyframes fadeInLeft {
+    	0% {
+    		opacity: 0;
+    		transform: translateX(-20px);
+    	}
+    	100% {
+    		opacity: 1;
+    		transform: translateX(0);
+    	}
+    }
+}
+.fadeInLeft() {
+	animation-name: fadeInLeft;
+}
+.setup-fadeExpand() {
+    @keyframes fadeExpand {
+        0% {
+            opacity: 0;
+            transform: scale(0);
+        }
+        
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}
+.fadeExpand() {
+    animation-name: fadeExpand;
+}
+.setup-fadeCompress() {
+    @keyframes fadeCompress {
+        100% {
+            opacity: 0;
+            transform: scale(0);
+        }
+        
+        0% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}
+.fadeCompress() {
+    animation-name: fadeCompress;
+}
+.setup-loader() {
+	@keyframes loading{
+	    0%{
+	        background-color: RGBA(204, 102, 51, 1.00);
+	        box-shadow: 14px 0px 0px 0px RGBA(204, 102, 51, .5), 
+	                    28px 0px 0px 0px RGBA(204, 102, 51, .25);
+	    }
+	    25%{ 
+	        background-color: RGBA(204, 102, 51, .5);
+	        box-shadow: 14px 0px 0px 0px RGBA(204, 102, 51, 1), 
+	                    28px 0px 0px 0px RGBA(204, 102, 51, .5);
+	    }
+	    75%{ background-color: RGBA(204, 102, 51, .25);
+	        box-shadow: 14px 0px 0px 0px RGBA(204, 102, 51, .25), 
+	                    28px 0px 0px 0px RGBA(204, 102, 51, 1);
+	    }
+	}
+}
+
+//Circle Animations:
+.circleAnimate() {
+	animation-name: circleAnimate;
+}
+.setup-circleAnimate() {
+	@keyframes circleAnimate {
+	  0% {stroke-dashoffset: 300%;}
+	}
+}

@@ -1,0 +1,153 @@
+//
+// Carousel
+// --------------------------------------------------
+
+.ui-carousel{
+    display: none;
+    position: relative;
+    width: 100%;
+    -ms-touch-action: pan-y;
+    &:after {
+        &:extend(.clearfix);
+    }
+    .owl-wrapper {
+        display: none;
+        position: relative;
+        transform: translate3d(0px, 0px, 0px);
+    }
+    .owl-wrapper-outer {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+        z-index: 1;
+        &.autoHeight {
+            transition: height 500ms ease-in-out;
+        }
+    }
+    .owl-item {
+        float: left;
+    }
+    .owl-controls {
+        user-select: none;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 90;
+    }
+    .owl-prev,
+    .owl-next{
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        top: 0;
+        z-index: 100;
+        cursor: pointer;
+        //IE HOVER FIX
+        background: rgba(0,0,0,0);
+        &:hover{
+            .button{
+                opacity: .7;
+            }
+        }
+        .button{
+            position: absolute;
+            top: 50%;
+            width: 60px;
+            height: 60px;
+            margin-top: -30px;
+            padding: 0;
+            border-radius: 0;
+            color: #ffffff;
+            font-size: 28px;
+            background-color: @brand-primary;
+            opacity: 0;
+            transition: background-color 0.3s, opacity 0.3s;
+
+            &:hover{
+                opacity: 1;
+            }
+        }
+    }
+    .owl-prev{
+        left: 0;
+
+        .button{
+            left: 0;
+        }
+    }
+    .owl-next{
+        right: 0;
+
+        .button{
+            right: 0;
+        }
+    }
+    .ui-counter{
+        text-align: right;
+        padding: 20px 0;
+        font-size: 16px;
+    }
+}
+.section__full-bleed {
+	.ui-carousel{
+		.ui-counter{
+	        padding: 10px 20px 40px;
+	    }
+	}
+}
+//Animations
+.owl-origin {
+    -webkit-perspective: 1200px;
+    -webkit-perspective-origin-x : 50%;
+    -webkit-perspective-origin-y : 50%;
+    -moz-perspective : 1200px;
+    -moz-perspective-origin-x : 50%;
+    -moz-perspective-origin-y : 50%;
+    perspective : 1200px;
+}
+.owl-fade-out {
+    z-index: 10;
+    -webkit-animation: fadeOut .7s both ease;
+    -moz-animation: fadeOut .7s both ease;
+    animation: fadeOut .7s both ease;
+}
+.owl-fade-in {
+    -webkit-animation: fadeIn .7s both ease;
+    -moz-animation: fadeIn .7s both ease;
+    animation: fadeIn .7s both ease;
+}
+@-webkit-keyframes empty {
+    0% {opacity: 1}
+}
+@-moz-keyframes empty {
+    0% {opacity: 1}
+}
+@keyframes empty {
+    0% {opacity: 1}
+}
+@-webkit-keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:1; }
+}
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes fadeOut {
+    0% { opacity:1; }
+    100% { opacity:0; }
+}
+@-moz-keyframes fadeOut {
+    0% { opacity:1; }
+    100% { opacity:0; }
+}
+@keyframes fadeOut {
+    0% { opacity:1; }
+    100% { opacity:0; }
+}

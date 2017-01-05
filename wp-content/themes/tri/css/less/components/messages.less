@@ -1,0 +1,48 @@
+//
+// Messages
+// --------------------------------------------------
+
+//
+// Mixins
+// --------------------------------------------------
+.msg-variant(@color; @background; @border) {
+    color: @color;
+    background-color: @background;
+    border-color: @border;
+}
+
+
+//
+// Define Messages
+// --------------------------------------------------
+.messages{
+    &:extend(.reset-list);
+
+    ul{
+        &:extend(.reset-list);
+
+        li{
+            padding: @msg-default-padding;
+            margin-bottom: @msg-default-vertical-spacing;
+            border: @msg-default-border;
+            border-radius: @msg-default-border-radius;
+            text-align: center;
+        }
+    }
+    .error-msg{
+        li{
+            .msg-variant(@msg-error-color, @msg-error-bg, @msg-error-border-color);
+        }
+    }
+    .success-msg{
+        li{
+            .msg-variant(@msg-success-color, @msg-success-bg, @msg-success-border-color);
+        }
+    }
+    .note-msg{
+        li{
+            .msg-variant(@msg-note-color, @msg-note-bg, @msg-note-border-color);
+        }
+    }
+}
+

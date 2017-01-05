@@ -1,0 +1,95 @@
+
+.faced {
+    float: left;
+    display: inline-block;
+    margin: 0 5px 10px;
+    position: relative;
+}
+.tipsy-container {
+    position: relative;
+}
+.tipsy-title,
+.tipsy {
+    background: #2b2b2b;
+    color: #ffffff;
+    display: none;
+    line-height: 20px;
+    position: absolute;
+    padding: 10px 12px;
+    margin-top: 25px;
+    width: 160px;
+    z-index: 999999;
+
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+
+    &:before {
+        border-style: solid;
+        content: '';
+        position: absolute;
+        top: -12px;
+        height: 0;
+        width: 0;
+    }
+}
+.tipsy-title-tip {
+    display: inline;
+}
+.tipsy-title {
+    left: 100px;
+    top: 0;
+
+    &:before {
+        border-width: 15px 0 0 18px;
+        border-color: transparent transparent transparent #2B2B2B;
+        left: 20px;
+    }
+    &.show {
+        opacity: 1;
+    }
+}
+.tipsy {
+    &.show {
+        opacity: 1;
+    }
+    &.left {
+        left: 0;
+    }
+    &.right {
+        right: 0;
+    }
+    &.top {
+        top: -23%;
+    }
+    &.bottom {
+        bottom: -23%;
+    }
+
+    // positioning
+    &.bottom.left:before,
+    &.top.left:before {
+        border-width: 15px 0 0 18px;
+        border-color: transparent transparent transparent #2B2B2B;
+        left: 20px;
+    }
+    &.bottom.right:before,
+    &.top.right:before {
+        border-width: 15px 20px 0 0;
+        border-color: transparent #2B2B2B transparent transparent;
+        right: 20px;
+    }
+
+    // following
+    &[data-tipsy-follow="true"] {
+        top: 0%;
+        left: 0%;
+        bottom: initial;
+        right: initial;
+
+        &.top,
+        &.bottom {
+            top: initial;
+            bottom: initial;
+        }
+    }
+}

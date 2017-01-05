@@ -1,0 +1,366 @@
+//
+// Base Colors
+// --------------------------------------------------
+
+@body-bg:                   transparent;
+
+@gray-base:                 #000;
+@gray-darker:               lighten(@gray-base, 13.5%); // #222
+@gray-dark:                 lighten(@gray-base, 20%);   // #333
+@gray:                      lighten(@gray-base, 33.5%); // #555
+@gray-light:                lighten(@gray-base, 46.7%); // #777
+@gray-lighter:              lighten(@gray-base, 93.5%); // #eee
+
+@brand-primary:             #00afe9;
+@brand-secondary:           #999999;
+@brand-tertiary:            #666666;
+@brand-forth:               #333333;
+@brand-fifth:               #e2e2e2;
+
+@brand-success:             #00a55c;
+@brand-note:                @brand-secondary;
+@brand-error:               #db1b5b;
+
+
+//
+// Typography
+// --------------------------------------------------
+
+@text-color:                @brand-forth;
+
+@link-color:                @brand-primary;
+@link-hover-color:          @brand-primary;
+@link-decoration:           none;
+@link-hover-decoration:     none;
+
+@font-family-sans-serif:   'Open Sans', Helvetica, Arial, sans-serif;;
+@font-family-serif:        'Playfair Display SC', Georgia, "Times New Roman", Times, serif;
+@font-family-base:          @font-family-sans-serif;
+@font-family-icon:          "boilerplate";
+
+@font-weight-normal:        normal;
+@font-weight-semi-bold:     normal;
+@font-weight-bold:          bold;
+
+@font-size-base:            14px;
+@font-size-large:           ceil((@font-size-base * 1.14)); // ~16px
+@font-size-small:           ceil((@font-size-base * 0.85)); // ~12px
+
+@font-size-h1:              floor((@font-size-base * 2.6)); // ~36px
+@font-size-h2:              floor((@font-size-base * 2.15)); // ~30px
+@font-size-h3:              ceil((@font-size-base * 1.7)); // ~24px
+@font-size-h4:              ceil((@font-size-base * 1.25)); // ~18px
+@font-size-h5:              @font-size-base;
+@font-size-h6:              ceil((@font-size-base * 0.85)); // ~12px
+
+@line-height-base:          1.43; // ~20/14
+@line-height-computed:      floor((@font-size-base * @line-height-base)); // ~20px
+
+@headings-font-family:      inherit;
+@headings-font-weight:      normal;
+@headings-line-height:      1.1;
+@headings-color:            inherit;
+
+
+//
+// Buttons
+// --------------------------------------------------
+
+@btn-default-color:             #ffffff;
+@btn-default-bg:                @brand-primary;
+@btn-default-border-color:      @brand-primary;
+@btn-default-font-weight:       normal;
+
+@btn-default-padding:           16px 58px;
+@btn-default-font-size:         @font-size-base;
+@btn-default-line-height:       1em;
+@btn-default-border:            none;
+@btn-default-border-radius:     4px;
+
+
+//
+// Code
+// --------------------------------------------------
+
+@code-color: #000000;
+@code-bg: #f7f7f9;
+@code-border-radius: 2px;
+
+@kbd-color: #ffffff;
+@kbd-bg: #999999;
+
+
+//
+// Forms
+// --------------------------------------------------
+
+@input-default-color:                   @text-color;
+@input-default-bg:                      #ffffff;
+@input-default-border-color:            @brand-fifth;
+
+@input-validation-color:                @text-color;
+@input-validation-bg:                   #ffffff;
+@input-validation-border-color:         @brand-error;
+
+@input-default-padding:                 18px 28px;
+@input-default-font-size:               14px;
+@input-default-line-height:             18px;
+@input-default-border:                  1px solid @input-default-border-color;
+@input-default-border-radius:           0;
+
+@input-default-vertical-spacing:        16px;
+@input-default-horizontal-spacing:      16px;
+
+@text-area-height:                      226px;
+
+@validation-msg-color:                  #db2323;
+@validation-msg-font-size:              12px;
+@validation-msg-line-height:            2em;
+@validation-msg-font-style:             normal;
+@validation-msg-padding:                6px 0 0 12px;
+
+@inline-field-spacing:                  15px;
+@inline-field-width:                    45%;
+
+@inline-form-button-height:             54px;
+@inline-form-button-width:              120px;
+
+@custom-radio-height:                   16px;
+@custom-radio-width:                    16px;
+@custom-radio-color:                    #666666;
+@custom-radio-icon:                     "\f10c";
+@custom-radio-icon-active:              "\f192";
+@custom-radio-icon-font-size:           16px;
+
+@custom-checkbox-height:                16px;
+@custom-checkbox-width:                 16px;
+@custom-checkbox-color:                 #666666;
+@custom-checkbox-icon:                  "\f096";
+@custom-checkbox-icon-active:           "\f046";
+@custom-checkbox-icon-font-size:        16px;
+
+
+//
+// Grid
+// --------------------------------------------------
+
+// Set False if Theme is not responsive
+@is-responsive: true;
+
+// Number of Columns
+@grid-columns:              12;
+// Gutter Width
+@grid-gutter-width:         40px;
+// Float Breakpoint for Elements
+@grid-float-breakpoint:     @screen-md;
+
+// Small screen / phone
+@screen-sm:                  480px;
+@screen-sm-bp:               481px;
+@container-sm:              (@screen-sm + @grid-gutter-width);
+// Medium screen / tablet
+@screen-md:                  768px;
+@screen-md-bp:               769px;
+@container-md:              (@screen-md + @grid-gutter-width);
+// Large screen / desktop
+@screen-lg:                  960px;
+@screen-lg-bp:               961px;
+@container-lg:              (@screen-lg + @grid-gutter-width);
+// X-Large screen / desktop
+@screen-xl:                  1140px;
+@screen-xl-bp:               1141px;
+@container-xl:              (@screen-xl + @grid-gutter-width);
+
+
+
+//
+// Tables
+// --------------------------------------------------
+
+@table-margin:          0 0 10px 0;
+
+@table-head-bg:         #f5f5f5;
+@table-head-padding:    16px 12px;
+@table-head-align:      center;
+@table-head-border:     1px solid #ebebeb;
+
+@table-cell-bg:         #ffffff;
+@table-cell-alt-bg:     @table-head-bg;
+@table-cell-padding:    16px 12px;
+@table-cell-align:      center;
+@table-cell-border:     1px solid #ebebeb;
+
+@product-table-margin:  15px;
+@product-table-image-width: 50%;
+
+
+//
+// Messages
+// --------------------------------------------------
+
+@msg-default-color:               #ffffff;
+@msg-default-bg:                  @brand-primary;
+@msg-default-border-color:        transparent;
+
+@msg-success-color:               #ffffff;
+@msg-success-bg:                  @brand-success;
+@msg-success-border-color:        transparent;
+
+@msg-note-color:                  #ffffff;
+@msg-note-bg:                     @brand-note;
+@msg-note-border-color:           transparent;
+
+@msg-error-color:                 #ffffff;
+@msg-error-bg:                    @brand-error;
+@msg-error-border-color:          transparent;
+
+@msg-default-padding:             12px;
+@msg-default-font-size:           14px;
+@msg-default-line-height:         1;
+@msg-default-border:              none;
+@msg-default-border-radius:       2px;
+
+@msg-default-vertical-spacing:    34px;
+
+
+//
+// Pagination
+// --------------------------------------------------
+
+@pagination-color:             @brand-secondary;
+@pagination-active-color:      @brand-primary;
+@pagination-bg:                transparent;
+
+@pagination-padding:           0 10px;
+@pagination-font-size:         @font-size-small;
+@pagination-font-family:       @font-family-base;
+@pagination-line-height:       48px;
+@pagination-text-transform:    uppercase;
+@pagination-border:            none;
+@pagination-border-radius:     0;
+
+
+//
+// Breadcrumbs
+// --------------------------------------------------
+
+@breadcrumb-padding:        0;
+@breadcrumb-margin:         16px 0;
+@breadcrumb-bg:             transparent;
+@breadcrumb-font-size:      @font-size-small;
+@breadcrumb-separator:      '/';
+@breadcrumb-color:          @brand-primary;
+@breadcrumb-active-color:   @brand-primary;
+
+
+//
+// Thumbnails
+// --------------------------------------------------
+
+@thumbnail-padding:             0;
+@thumbnail-bg:                  transparent;
+@thumbnail-border:              1px solid @brand-tertiary;
+@thumbnail-border-radius:       6px;
+@thumbnail-margin:              0 0 20px 0;
+
+@thumbnail-copy-padding:        10px;
+
+
+//
+// Accordion
+// --------------------------------------------------
+
+@accordion-trigger-bg:              transparent;
+@accordion-trigger-padding:         (@line-height-computed/2);
+@accordion-trigger-color:           @text-color;
+
+
+//
+// Custom Selects
+// --------------------------------------------------
+
+@select-color:                      @input-default-color;
+@select-bg:                         @input-default-bg;
+@select-border-color:               @input-default-border-color;
+
+@select-height:                     48px; //perhaps we can do this better
+@select-padding:                    @input-default-padding;
+@select-font-size:                  @input-default-font-size;
+@select-line-height:                @input-default-line-height;
+@select-border:                     @input-default-border;
+@select-border-radius:              @input-default-border-radius;
+@select-icon:                       "\f107";
+@select-icon-color:                 @brand-primary;
+
+@select-has-options:                false;
+
+
+//
+// Carousel
+// --------------------------------------------------
+
+@carousel-nav-color:           @link-color;
+@carousel-hover-nav-color:     @link-hover-color;
+@carousel-prev-icon:           '\f104';
+@carousel-next-icon:           '\f105';
+@carousel-nav-size:            40px;
+
+//
+// Menu
+// --------------------------------------------------
+@menu-link-padding: 44px 16px;
+@menu-link-hover: @gray-base;
+@menu-link-bg-hover: transparent;
+
+@menu-dropdown-width: 250px;
+@menu-dropdown-padding: 20px 40px;
+@menu-dropdown-position-offset: -20px;
+@menu-dropdown-background: #fff;
+@menu-dropdown-shadow: none;
+@menu-dropdown-border: 1px solid @brand-tertiary;
+
+@menu-dropdown-link-padding: 5px 0;
+@menu-dropdown-link-hover: @brand-primary;
+@menu-dropdown-link-bg-hover: transparent;
+
+
+//
+// Modal
+// --------------------------------------------------
+
+@modal-sm:                          90%;
+@modal-md:                          600px;
+@modal-lg:                          960px;
+
+@modal-backdrop-bg:                 rgba(255,255,255,0.95);
+@modal-backdrop-bg-fallback:        #ffffff;
+
+@modal-content-bg:                  transparent;
+@modal-content-margin:              0 auto;
+@modal-content-padding:             40px 80px;
+@modal-content-padding-sm:          40px 20px;
+@modal-content-border:              transparent;
+@modal-content-border-radius:       none;
+
+
+//
+// Tabs
+// --------------------------------------------------
+
+@tabby-tab-bg:              @brand-tertiary;
+@tabby-tab-padding:         0;
+@tabby-tab-color:           @brand-fifth;
+@tabby-tab-bg-active:       @brand-primary;
+@tabby-tab-color-active:    @brand-primary;
+
+@tabby-content-padding: 	0;
+
+
+//
+// Tray
+// --------------------------------------------------
+
+@tray-container-padding:        0;
+@tray-container-background:     #fff;
+@tray-close-size:               @font-size-large;
+@tray-close-icon:               "\e900";

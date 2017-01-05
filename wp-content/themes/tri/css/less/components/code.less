@@ -1,0 +1,214 @@
+//
+// Code (inline and block)
+// --------------------------------------------------
+
+// Inline and block code styles
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, sans-serif;
+}
+
+// Inline code
+code {
+    background-color: @code-bg;
+    border-radius: @code-border-radius;
+	box-shadow: 0 1px 3px rgba(100, 100, 100, .2);
+    color: @code-color;
+    font-size: 90%;
+    padding: 3px 5px;
+    //white-space: nowrap;
+
+	.prettyprint & {
+		box-shadow: none;
+	}
+}
+
+// User input typically entered via keyboard
+kbd {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: @kbd-color;
+    background-color: @kbd-bg;
+    border-radius: @code-border-radius;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
+
+    kbd {
+        padding: 0;
+        font-size: 100%;
+        font-weight: bold;
+        box-shadow: none;
+    }
+}
+
+// Blocks of code
+pre {
+    display: block;
+    padding: ((@line-height-computed - 1) / 2);
+    margin: 0 0 (@line-height-computed / 2);
+    font-size: (@font-size-base - 1); // 14px to 13px
+    line-height: @line-height-base;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: @code-color;
+    border: 1px solid #ccc;
+    border-radius: @code-border-radius;
+
+    // Account for some code outputs that place code tags in pre tags
+    code {
+        padding: 0;
+        font-size: inherit;
+        color: inherit;
+        white-space: pre-wrap;
+        background-color: transparent;
+        border-radius: 0;
+    }
+
+    ul, ol {
+        list-style-position: inside;
+        padding-left: 1.2em;
+        text-indent: -1.2em;
+    }
+}
+
+// Enable scrollable blocks of code
+.pre-scrollable {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.code-highlight {
+    margin: 20px 0;
+
+	pre {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+
+	h4 {
+		background-color: #f9f9f9;
+		border-radius: 3px 3px 0 0;
+		border: 1px solid #E1E1E8;
+		border-bottom: 0;
+		margin-bottom: 0;
+		padding: 12px 8px;
+	}
+}
+
+
+/* Pretty printing styles. Used with prettify.js.
+ *
+ * This version is slight modified based on the original version.
+ *
+ * Name:	Stanley Ng
+ * Email: 	stanleyhlng@googlegroups.com
+ *
+ * Reference:
+ * http://code.google.com/p/google-code-prettify/source/browse/trunk/src/prettify.css
+ */
+.pln {
+    color: #48484C;
+}
+
+.str {
+    color: #DD1144;
+}
+
+.kwd {
+    color: #1E347B;
+}
+
+.com {
+    color: #93A1A1;
+}
+
+.typ {
+    color: teal;
+}
+
+.lit {
+    color: #195F91;
+}
+
+.pun {
+    color: #93A1A1;
+}
+
+.opn {
+    color: #93A1A1;
+}
+
+.clo {
+    color: #93A1A1;
+}
+
+.tag {
+    color: #008;
+}
+
+.atn {
+    color: teal;
+}
+
+.atv {
+    color: #DD1144;
+}
+
+.dec {
+    color: teal;
+}
+
+.var {
+    color: teal;
+}
+
+.fun {
+    color: #DC322F;
+}
+
+/* Put a border around prettyprinted code snippets. */
+pre.prettyprint {
+    background-color: #f9f9f9;
+    padding: 0;
+    border: 1px solid #E1E1E8;
+}
+
+pre.prettyprint.linenums {
+    box-shadow:  40px 0 0 #fff inset;
+}
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+    color: #1E347B;
+    padding: 0;
+    list-style-position: inside;
+    text-indent: -2.6em;
+}
+
+ol.linenums li {
+    color: #BEBEC5;
+    line-height: 18px;
+    padding: 2px 2px 2px 50px;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L5,
+li.L6,
+li.L7,
+li.L8 {
+    list-style-type: normal;
+}
+
+/* Alternate shading for lines */
+li.L1,
+li.L3,
+li.L5,
+li.L7,
+li.L9 {
+    background: #eee;
+}

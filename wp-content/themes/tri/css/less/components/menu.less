@@ -1,0 +1,70 @@
+@import (reference) "../components/variables";
+
+//
+// Menu
+// --------------------------------------------------
+
+.ui-nav{
+    ul{
+        &:extend(.reset-list);
+        &:extend(.clearfix all);
+
+        > li{
+            position: relative;
+            display: block;
+            float: left;
+
+            > a{
+                display: block;
+                padding: @menu-link-padding;
+
+                &:focus,
+                &:hover{
+                    color: @menu-link-hover;
+                    background-color: @menu-link-bg-hover;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+    .trigger{
+        position: relative;
+    }
+    .drop-down{
+        position: absolute;
+        z-index: 100;
+        top: 100%;
+        left: @menu-dropdown-position-offset;
+        padding: @menu-dropdown-padding;
+        min-width: @menu-dropdown-width;
+        border: @menu-dropdown-border;
+
+        visibility: hidden;
+
+        opacity: 0;
+        transition: opacity .25s ease, visibility .25s ease;
+        background: @menu-dropdown-background;
+        box-shadow: @menu-dropdown-shadow;
+
+        &.ui-active {
+            visibility: visible;
+            opacity: 1;
+        }
+        ul{
+            li{
+                a{
+                    display: block;
+                    padding: @menu-dropdown-link-padding;
+
+                    &:focus,
+                    &:hover{
+                        background-color: @menu-dropdown-link-bg-hover;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+
+    }
+}
+

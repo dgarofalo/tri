@@ -1,0 +1,321 @@
+@import (reference) "mixins";
+
+//
+// Forms
+// --------------------------------------------------
+
+//
+// Mixins
+// --------------------------------------------------
+
+.input-reset(){
+    display: block;
+    width: 100%;
+    background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+    outline: none;
+}
+
+//
+// Normalize Elements
+// --------------------------------------------------
+
+fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    // Chrome and Firefox set a `min-width: min-content;` on fieldsets,
+    // so we reset that to ensure it behaves more like a standard block element.
+    // See https://github.com/twbs/bootstrap/issues/12359.
+    min-width: 0;
+}
+
+label{
+    display: block;
+    margin-bottom: (@input-default-vertical-spacing/2);
+    font-family: @font-family-base;
+    font-size: @font-size-base;
+}
+
+input[type="search"]{
+    box-sizing: border-box;
+}
+
+//
+// Inputs
+// --------------------------------------------------
+
+.input-text{
+    .input-reset();
+    padding: @input-default-padding;
+    font-size: 14px;
+    line-height: @input-default-line-height;
+    border: @input-default-border;
+    border-radius: @input-default-border-radius;
+
+    color: @input-default-color;
+    background-color: @input-default-bg;
+    transition: 0.3s ease-out;
+
+    //Reset iOS Styles
+    -webkit-appearance: none;
+
+    .placeholder(@input-default-color);
+
+    &:focus{
+        border-color: darken(@input-default-border-color, 10%);
+    }
+
+    &[disabled],
+    &[readonly]{
+        cursor: not-allowed;
+        opacity: .5;
+    }
+
+    // Reset height for `textarea`s
+    textarea& {
+        .resizable(vertical);
+        height: @text-area-height;
+    }
+
+    &.error,
+    &.validation-failed{
+        color: @input-validation-color;
+        background-color: @input-validation-bg;
+
+        border-bottom: 2px solid @input-validation-border-color;
+        //border-color: @input-validation-border-color;
+
+        .placeholder(@input-validation-color);
+    }
+}
+
+//Inline Form
+.inline-form{
+    &:extend(.clearfix all);
+
+    .input-box,
+    .button{
+        float: left;
+    }
+    .input-box{
+        .calc-helper(width, 100%, ~"100% -"@inline-form-button-width);
+    }
+    .input-text{
+        .border-right-radius(0);
+    }
+    .button{
+        width: @inline-form-button-width;
+        height: @inline-form-button-height;
+        padding: 0;
+
+        .border-left-radius(0);
+    }
+}
+
+//Horizontal Form
+.horizontal-form {
+    label{
+        margin-bottom: 0;
+        line-height: @inline-form-button-height;
+    }
+    .form-list{
+        li{
+            .make-row();
+        }
+    }
+}
+
+.grid-form{
+    .form-list{
+        li{
+            .make-row();
+        }
+        @media (max-width: @grid-float-breakpoint) {
+            li{
+                margin-bottom: 0;
+            }
+            [class^="col-"]{
+                margin-bottom: @input-default-vertical-spacing;
+            }
+        }
+    }
+}
+
+//Custom Form Elements
+.custom-checkbox,
+.custom-radio{
+    position: relative;
+    display: inline-block;
+
+    input[type="checkbox"],
+    input[type="radio"]{
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+
+        &[disabled] + label,
+        &[readonly] + label{
+            opacity: .5;
+        }
+    }
+    label{
+        display: inline-block;
+        vertical-align: top;
+        margin-bottom: 0;
+        line-height: 1;
+    }
+    + .custom-checkbox,
+    + .custom-radio{
+        margin-left: @custom-checkbox-width;
+    }
+}
+
+.custom-checkbox{
+    input[type="checkbox"]{
+        width: @custom-checkbox-width;
+        height: @custom-checkbox-height;
+
+        &:checked + label:before{
+            content: @custom-checkbox-icon-active;
+        }
+    }
+    label{
+        &:before{
+            &:extend(.icon);
+            display: inline-block;
+            content: @custom-checkbox-icon;
+            width: @custom-checkbox-width;
+            margin-right: (@custom-checkbox-width/2);
+            font-size: @custom-checkbox-icon-font-size;
+            color: @custom-checkbox-color;
+        }
+    }
+}
+
+.custom-radio{
+    input[type="radio"]{
+        width: @custom-radio-width;
+        height: @custom-radio-height;
+
+        &:checked + label:before{
+            content: @custom-radio-icon-active;
+        }
+    }
+    label{
+        &:before{
+            &:extend(.icon);
+            display: inline-block;
+            content: @custom-radio-icon;
+            margin-right: (@custom-radio-width/2);
+            font-size: @custom-radio-icon-font-size;
+            color: @custom-radio-color;
+        }
+    }
+}
+
+//
+// Validation Messages (supports protoype validation & jquery validation)
+// --------------------------------------------------
+label.error,
+.validation-advice{
+    padding: @validation-msg-padding;
+    color: @validation-msg-color;
+    font-size: @validation-msg-font-size;
+    font-style: @validation-msg-font-style;
+    line-height: @validation-msg-line-height;
+    text-align: left;
+}
+
+//Inline Validation Messages
+//(WARNING that long messages may not look great without additional styling or considerations)
+.inline-validation{
+    li,
+    .field{
+        position: relative;
+    }
+    .field{
+        label.error,
+        .validation-advice{
+            //right: (@input-default-horizontal-spacing + @input-default-padding);
+        }
+    }
+    label.error,
+    .validation-advice{
+        position: absolute;
+        top: 50%;
+        right: @input-default-padding;
+        margin-top: -(@validation-msg-line-height/2);
+    }
+    textarea + label.error,
+    textarea + .validation-advice{
+        top: @input-default-padding;
+        margin-top: 0;
+        line-height: @input-default-line-height;
+    }
+}
+
+//
+// Form List
+// --------------------------------------------------
+
+.form-list{
+    &:extend(.reset-list);
+
+    li{
+        margin-bottom: @input-default-vertical-spacing;
+    }
+    .fields{
+        &:extend(.clearfix all);
+        margin-left: -@input-default-horizontal-spacing;
+        margin-right: -@input-default-horizontal-spacing;
+
+        .field{
+            float: left;
+            width: 50%;
+            padding-left: @input-default-horizontal-spacing;
+            padding-right: @input-default-horizontal-spacing;
+        }
+    }
+    .field-group{
+        .field{
+            margin-top: (@input-default-vertical-spacing/2);
+
+            &:first-child{
+                margin-top: 0;
+            }
+        }
+    }
+    .half {
+        width:50%;
+    }
+}
+
+@media screen and (max-width: @grid-float-breakpoint) {
+    .form-list {
+        .fields {
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: 0;
+
+            .field {
+                float: none;
+                width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+                margin-bottom: @input-default-vertical-spacing;
+            }
+        }
+        .half {
+            width:100%;
+        }
+    }
+    .inline-validation{
+        .field{
+            label.error,
+            .validation-advice{
+                right: @input-default-padding;
+            }
+        }
+    }
+}

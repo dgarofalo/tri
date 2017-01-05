@@ -1,0 +1,34 @@
+//
+// Breadcrumbs
+// --------------------------------------------------
+
+//
+// Define Breadcrumbs
+// --------------------------------------------------
+.breadcrumbs{
+    &:extend(.reset-list);
+    margin: @breadcrumb-margin;
+    padding: @breadcrumb-padding;
+    background-color: @breadcrumb-bg;
+
+    li{
+        display: inline-block;
+        color: @breadcrumb-color;
+        font-size: @breadcrumb-font-size;
+
+        + li:before {
+            content: @breadcrumb-separator;
+            padding: 0 2px;
+        }
+        &.active {
+            color: @breadcrumb-active-color;
+        }
+    }
+    a{
+        color: inherit;
+        text-decoration: none;
+    }
+    strong{
+        font-weight: normal;
+    }
+}

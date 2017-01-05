@@ -1,0 +1,25 @@
+//
+// Viewable
+// --------------------------------------------------
+
+.ui-viewable{
+    opacity: 0;
+    transform: translate(0,50px);
+    transition: opacity 375ms cubic-bezier(0.0, 0.0, 0.2, 1), transform 375ms cubic-bezier(0.0, 0.0, 0.2, 1);
+
+    &.viewable-left{
+        transform: translate(-50px,0);
+    }
+    &.viewable-right{
+        transform: translate(50px,0);
+    }
+    &.viewable-in-view{
+        opacity: 1;
+        transform: translateZ(0);
+    }
+    &.viewable-hidden{
+        opacity: 0;
+        transform: translate(0,50px);
+    }
+}
+

@@ -1,0 +1,101 @@
+//
+// Tabby
+// --------------------------------------------------
+
+//
+// Define Tabby
+// --------------------------------------------------
+.ui-tabs {
+    margin-top: 50px;
+	position: relative;
+	&:after {
+		content: '';
+		width: 30px;
+		height: 70px;
+		position: absolute;
+		right: 0;
+		top: 0px;
+		background: -moz-linear-gradient(left, rgba(246,246,246,0) 0%, rgba(246,246,246,1) 100%);
+		background: -webkit-gradient(left top, right top, color-stop(0%, rgba(246,246,246,0)), color-stop(100%, rgba(246,246,246,1)));
+		background: -webkit-linear-gradient(left, rgba(246,246,246,0) 0%, rgba(246,246,246,1) 100%);
+		background: -o-linear-gradient(left, rgba(246,246,246,0) 0%, rgba(246,246,246,1) 100%);
+		background: -ms-linear-gradient(left, rgba(246,246,246,0) 0%, rgba(246,246,246,1) 100%);
+		background: linear-gradient(to right, rgba(246,246,246,0) 0%, rgba(246,246,246,1) 100%);
+	}
+	&:before {
+		content: '';
+		width: 30px;
+		height: 70px;
+		z-index: 1;
+		position: absolute;
+		left: 0;
+		top: 0px;
+		background: -moz-linear-gradient(left, rgba(246,246,246,1) 0%, rgba(246,246,246,0) 100%);
+		background: -webkit-gradient(left top, right top, color-stop(0%, rgba(246,246,246,1)), color-stop(100%, rgba(246,246,246,0)));
+		background: -webkit-linear-gradient(left, rgba(246,246,246,1) 0%, rgba(246,246,246,0) 100%);
+		background: -o-linear-gradient(left, rgba(246,246,246,1) 0%, rgba(246,246,246,0) 100%);
+		background: -ms-linear-gradient(left, rgba(246,246,246,1) 0%, rgba(246,246,246,0) 100%);
+		background: linear-gradient(to right, rgba(246,246,246,1) 0%, rgba(246,246,246,0) 100%);
+	}
+    .tabs-nav{
+        border-top: 1px solid @tabby-tab-color;
+        border-bottom: 1px solid @tabby-tab-color;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: 0;
+        padding-right: 20px;
+        padding-left: 20px;
+        overflow: hidden;
+        height: 70px;
+        overflow-x: auto;
+        .tabs-tab{
+            display: inline-block;
+            vertical-align: top;
+            padding: 24px 36px;
+            height: 68px;
+            overflow: hidden;
+        }
+    }
+    .tabs-tab {
+        //&:extend(.button);
+        //background-color: @tabby-tab-bg;
+        position: relative;
+        font-size: @font-size-base;
+        color: @brand-tertiary;
+        text-transform: none;
+
+        &:after{
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: @brand-primary;
+            transition: bottom .14s ease;
+        }
+        &.ui-active {
+            //background-color: @tabby-tab-bg-active;
+            color: @tabby-tab-color-active;
+
+            &:after{
+                bottom: 0;
+            }
+        }
+    }
+    .tabs-content {
+        display: none;
+        padding: @tabby-content-padding;
+
+        opacity: 0;
+        transform: translate(0,50px);
+        transition: opacity .6s .1s,transform .6s ease;
+
+        &.ui-active {
+            opacity: 1;
+            transform: translate(0,0);
+        }
+    }
+}
