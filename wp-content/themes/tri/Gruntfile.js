@@ -30,7 +30,12 @@ module.exports = function (grunt) {
                     'js/vendor/jquery.js',
                     'js/vendor/jquery.validate.js',
                     'js/vendor/unveil.js',
-                    'js/vendor/menu.js'
+                    'js/vendor/respond.to.js',
+                    'js/vendor/utilities.js',
+                    'js/vendor/menu.js',
+                    'js/vendor/custom-selects.js',
+                    'js/vendor/accordion.js',
+                    'js/vendor/tray.js'
                 ],
 				dest: 'js/build/vendor.js'
 			},

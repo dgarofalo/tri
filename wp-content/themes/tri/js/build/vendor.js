@@ -11203,6 +11203,610 @@ if ( $.ajaxPrefilter ) {
 })(window.jQuery || window.Zepto);
 
 
+;
+/*!
+ * Respond.to.js
+ * Copyright 2014 Collin Bourdage.
+ *
+ * Lightweight javascript library to help facilitate javascript development
+ * for responsive development. Implements simple api to call, retrieve, and
+ * add callbacks to a stack of media query objects.
+ *
+ * Stack object looks like the following:
+ * array(
+ * 		'960' : array(object, object),
+ *      '760' : array(object, object)
+ * ));
+ */
+(function() {
+    /** @var window */
+    var root = this;
+    var Respond = root.Respond = {};
+
+    /**
+     * Pushes a new object based on a key onto the media stack
+     *
+     * @param mqString String
+     * @param obj Object
+     * @return {*}
+     * @private
+     */
+    Respond._push = function(mqString, obj) {
+        var key = this._purify(mqString);
+        this._mediaStack || (this._mediaStack = {});
+        this._mediaStack[key] || (this._mediaStack[key] = {mql : null, items : []});
+
+        if (!this._mediaStack[key].mql) {
+            if (root.matchMedia) {
+                this._mediaStack[key].mql = root.matchMedia(mqString);
+                this._mediaStack[key].mql.addListener(respondTo);
+            } else {
+                this._mediaStack[key].mql = {keyValue: null}; // ie8 fix
+            }
+
+            /**
+             * Store array key on the mql object for lookup later because of an
+             * inconsistency with how browsers handle media queries after instantiation:
+             *  	screen and (min-width: 700px) and (max-width: 900px)
+             * is converted to the following on the mql object:
+             *  	screen and (max-width: 900px) and (min-width: 700px)
+             */
+            this._mediaStack[key].mql.keyValue = key;
+        }
+
+        obj.ready = true;
+        this._mediaStack[key].items.push(obj);
+        return this;
+    };
+
+    /**
+     * Cleans keys for object index by replacing the spaces
+     * with a more acceptable character
+     *
+     * @param key
+     * @param replacement (optional)
+     * @returns {string}
+     * @private
+     */
+    Respond._purify = function (key, replacement) {
+        replacement || (replacement = '_');
+        return key.toLowerCase().replace(/[\s\-:()]/g, replacement).replace(/__/g, replacement).replace(/(_)$/, '');
+    };
+
+    /**
+     * Proxy function for adding listener to media query list.
+     *
+     * @param mql window.MediaQueryList
+     */
+    function respondTo(mql) {
+        Respond._respond(mql);
+    }
+
+    /**
+     * Responds to a given media query list object
+     *
+     * @private
+     * @param mql window.MediaQueryList
+     * @param namespace String
+     */
+    Respond._respond = function(mql, namespace) {
+        var key = mql.keyValue || mql.target.keyValue;
+
+        // ie9 can't store extra data on the mql object, so we purify the mql.media string
+        if (navigator.userAgent.match(/MSIE 9.0/)) {
+            key = this._purify(mql.media);
+        }
+
+        if (!this._mediaStack[key]) return;
+
+        // If ie8, lets run the "default" condition - we ain't supportin' it, sorry.
+        if (navigator.userAgent.match(/MSIE 8.0/)) {
+            for (var i = 0; i < this._mediaStack[key].items.length; i++) {
+                var _item = this._mediaStack[key].items[i],
+                    _fallback = _item['fallback'] || 'if';
+                if (typeof _item[_fallback] === 'function') {
+                    if (!namespace || _item['namespace'] == namespace) {
+                        _item[_fallback]();
+                    }
+                }
+            }
+            return this;
+        }
+
+        var _fnCallback = mql.matches ? 'if' : 'else';
+
+        for (var i = 0; i < this._mediaStack[key].items.length; i++) {
+            var _item = this._mediaStack[key].items[i];
+            if (typeof _item[_fnCallback] === 'function') {
+                if (!namespace || _item['namespace'] == namespace) {
+                    _item[_fnCallback]();
+                }
+            }
+        }
+        return this;
+    };
+
+    /**
+     * Returns a object based on a namespace and an optional
+     * media index.
+     *
+     * @param ns String
+     * @param mqString String
+     * @return {*}
+     * @private
+     */
+    Respond._retrieve = function(ns, mqString) {
+        if (!this._mediaStack) return;
+
+        var _temp = [];
+        if (!mqString) {
+            for (var key in this._mediaStack) {
+                for (var i = 0; i < this._mediaStack[key].items.length; i++) {
+                    _temp.push(this._mediaStack[key].items[i]);
+                }
+            }
+        } else {
+            var key = this._purify(mqString);
+            if (!this._mediaStack[key]) return;
+            _temp = this._mediaStack[key].items;
+        }
+
+        // find namespace
+        for (var i = 0; i < _temp.length; i++) {
+            if (_temp[i].namespace === ns) {
+                return _temp[i];
+            }
+        }
+    };
+
+    /**
+     * Adds the corresponding object to the media stack
+     *
+     * @param obj Object
+     * @return {*}
+     */
+    Respond.to = function(obj) {
+        if (obj.length) {
+            for (var i = 0; i < obj.length; i++) {
+                this.to(obj[i]);
+            }
+        } else {
+            var _temp = this._retrieve(obj.namespace, obj.media);
+            if (typeof _temp === 'undefined') {
+                _temp = this._push(obj.media, obj)
+                    ._retrieve(obj.namespace, obj.media);
+                if (_temp.ready) {
+                    this._respond(this._mediaStack[this._purify(obj.media)].mql, obj.namespace);
+                    _temp.ready = false;
+                }
+            }
+        }
+        return this;
+    };
+
+    /**
+     * Must be called to mark all ready and to make the initial
+     * media respond call.
+     */
+    Respond.ready = function() {
+        for (var key in this._mediaStack) {
+            this._respond(this._mediaStack[key].mql);
+        }
+        return this;
+    };
+
+    /**
+     * Returns the media stack object
+     *
+     * @param mqString String
+     * @return {*}
+     */
+    Respond.getStack = function(mqString) {
+        return this._mediaStack[mqString] || this._mediaStack;
+    };
+
+    /**
+     * Removes a objects from the media stack
+     *
+     * @param mqString String
+     * @param ns String (optional)
+     * @return {*}
+     */
+    Respond.remove = function(mqString, ns) {
+        var key = this._purify(mqString);
+
+        if (!this._mediaStack.length && !this._mediaStack[key]) return;
+
+        if (!ns) {
+            this._mediaStack[key].mql.removeListener(respondTo);
+            delete this._mediaStack[key];
+            return this;
+        }
+
+        for (var i = 0; i < this._mediaStack[key].items.length; i++) {
+            if (this._mediaStack[key].items[i].namespace === ns) {
+                delete this._mediaStack[key].items[i];
+                this._mediaStack[key].items.splice(i, 1);
+            }
+        }
+        return this;
+    };
+
+    /**
+     * Calls a specific ns, type, media reference
+     *
+     * @param ns String
+     * @param type String
+     * @param mqString String (optional)
+     * @return {*}
+     */
+    Respond.call = function(ns, type, mqString) {
+        try {
+            if (mqString && type) {
+                (this._retrieve(ns, mqString))[type](this);
+            } else if (type) {
+                (this._retrieve(ns))[type](this);
+            } else {
+                this._respond(this._mediaStack[this._purify((this._retrieve(ns)).media)].mql, ns);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+        return this;
+    };
+
+}).call(this);
+
+// Create UiKit object in global name space to pass into closure
+if (typeof UiKit === 'undefined') {
+	var UiKit = {};
+}
+
+/**
+ * UiKit Utilities/helper methods
+ *
+ * @param this | window.UiKit object
+ * @param $ | window.jQuery object
+ */
+(function($) {
+	this.utilities = {
+
+		$globalMsgs : $('#global-messages'),
+        /**
+         * UiKit standard plugin classes
+         */
+        activeClass: 'ui-active',
+        inactiveClass: 'ui-inactive',
+        transitioningClass: 'ui-transitioning',
+        plugins: {
+            initializer: function(_namespace) {
+                $.fn[_namespace] = function(option) {
+                    if (!UiKit.hasOwnProperty(_namespace)) throw "The UiKit " + _namespace + " plugin is not defined in the UiKit namespace.";
+
+                    var args = Array.prototype.slice.call(arguments, 1),
+                        initialize = function (i, el) {
+                            var $el = $(el),
+                                plugin = $el.data(_namespace),
+                                options,
+                                isInitialized = false;
+
+                            if (!plugin && (!$el.is(':visible') && $el.data('force') !== true || $el.hasClass('ignore')) && _namespace != 'Modal' && _namespace != 'Tipsy') {
+                                return el;
+                            }
+
+                            //check for existing data
+                            if (!plugin) {
+                                isInitialized = true;
+                                options = $.extend({}, UiKit[_namespace].defaults, typeof option === 'object' ? option : {});
+                                plugin = new UiKit[_namespace](el, options);
+                                $el.data(_namespace, plugin);
+                            }
+
+
+                            if(typeof option != 'undefined' && typeof option === 'string') {
+                                //we can pass in a string that triggers a method
+                                if (plugin[option]) {
+                                    return typeof plugin[option] === 'function' ? plugin[option].apply(plugin, args) : plugin[option];
+                                } else if (!isInitialized) {
+                                    console.error('The ' + option + ' method is not supported.');
+                                }
+                            }
+                            return el;
+                        };
+
+                    return this.map(initialize);
+                }
+            },
+            /**
+             * Data API definition/setup/instantiation for all our UiKit Plugins.
+             *
+             * @param _namespace
+             */
+            dataBinder: function(_namespace) {
+                var options = {},
+                    $obj = $(this),
+                    opt;
+
+                if($obj.data(_namespace.toSnakeCase())) {
+                    $obj.on('click.' + _namespace + ' touch.' + _namespace, function(e) {
+                        var $target = $($obj.data('target') || $obj.attr('href'));
+
+                        $target[_namespace].apply($target, [$obj.data(_namespace.toSnakeCase()), $obj.data()]);
+
+                        if($obj.is('a') || $obj.is('button')) e.preventDefault();
+                    });
+                } else {
+                    for (opt in UiKit[_namespace].defaults) {
+                        if(UiKit[_namespace].defaults.hasOwnProperty(opt) && $obj.data()[opt]) {
+                            options[opt] = $obj.data(opt);
+                        }
+                    }
+                    $obj[_namespace](options);
+                }
+            }
+        },
+
+        /**
+         * Adds an error message
+         *
+         * @param msg
+         * @param append
+         */
+        addError : function(msg, append) {
+            this.addMessage('error', msg, append);
+        },
+        /**
+         * Adds a message to the global messages area. Has option to append or just overwrite.
+         * This shortcut methods for this method implementations can be found in:
+         *
+         * - UiKit.utilities.addError
+         * - UiKit.utilities.addSuccess
+         *
+         * @param type String
+         * @param msg String
+         * @param append boolean
+         */
+        addMessage : function(type, msg, append, $altMsgContainer) {
+            var $msgsCntr = ($altMsgContainer) ? $altMsgContainer : this.$globalMsgs;
+            append || (append = false);
+            switch(type) {
+                case "success":
+                    // build classes and markup
+                    var message = '<li class="success-msg"><ul><li>' + msg +'</li></ul></li>';
+                    if (append) {
+                        var $appendTo = $msgsCntr.find('.messages li').filter(':last-child');
+                    }
+                    break;
+                case "error":
+                    // build classes and markup
+                    var message = '<li class="error-msg"><ul><li>' + msg +'</li></ul></li>';
+                    if (append) {
+                        var $appendTo = $msgsCntr.find('.messages li').filter(':last-child');
+                    }
+                    break;
+                default:
+                    var message = '<li class="note-msg"><ul><li>' + msg +'</li></ul></li>';
+                    if (append) {
+                        var $appendTo = $msgsCntr.find('.messages li').filter(':last-child');
+                    }
+                    break;
+            }
+
+            // if set to append, lets append it to the correct ul list else replace html with new messages
+            if (append) {
+                if ($appendTo.length) {
+                    $appendTo.after(message);
+                } else {
+                    $msgsCntr.append('<ul class="messages">' + message + '</ul>');
+                }
+            } else {
+                $msgsCntr.html('<ul class="messages">' + message + '</ul>');
+            }
+            // append to where the messages belong.
+        },
+        /**
+         * Adds a group of messages formatted in a json object/array
+         *
+         * @param msgs
+         * @returns {string}
+         */
+        addMessages: function(msgs, type){
+            type || (type = 'error');
+            this.clearMessages();
+            if (msgs instanceof Array) {
+                for (var i = 0; i < msgs.length; i++) {
+                    this.addMessage(type, msgs[i], true);
+                }
+            } else {
+                this.addMessage(type, msgs, true);
+            }
+        },
+        /**
+         * Adds a success message
+         *
+         * @param msg {String} the message
+         * @param append {boolean}
+         */
+        addSuccess : function(msg, append) {
+            this.addMessage('success', msg, append);
+        },
+        /**
+         * Checks a transition support and handles triggering events and callbacks.
+         * This method is actually not mandatory for all transition attributes.  In some cases like height, we
+         * just need to touch attributes in certain elements to trigger a repaint in the DOM so the transition event is
+         * executed after.
+         *
+         * @param $el
+         * @param event
+         * @param data {Object} A Plain Object with extra information to send to the event.  transitionSpeed attribute will specify the actual event delay.
+         * @param fn
+         */
+        checkTransition: function($el, event, data, fn) {
+            if ($.support.transition) {
+                $el.one($.support.transition.end, function(e) {
+                    if(typeof fn === 'function') {
+                        fn();
+                    }
+                    $el.trigger({type: event, extra: data});
+                });
+            }
+            else {
+                if(typeof fn === 'function') {
+                    fn();
+                }
+                $el.trigger({type: event, extra: data});
+            }
+        },
+        /**
+         * Clears the Global Messages
+         */
+        clearMessages : function() {
+            this.$globalMsgs.html('');
+        },
+        /**
+         * Debounce method allows a callback to be passed in to
+         * run at the completion of a burst of events (such as
+         * keyup)
+         *
+         * @param fn
+         * @param delay
+         * @returns {Function}
+         */
+        debounce : function(fn, delay) {
+            var timer = null;
+            return function () {
+                var context = this, args = arguments;
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    fn.apply(context, args);
+                }, delay);
+            };
+        },
+        /**
+         * Scrolls to a specific object in the DOM
+         *
+         * @param $container
+         * @param extras
+         * @param duration
+         */
+        scrollTo : function($container, extras, duration) {
+            var check = false,
+                threshold = 0;
+
+            if (typeof extras === 'object') {
+                check = extras.check || check;
+                threshold = extras.threshold || threshold;
+            } else {
+                check = extras
+            }
+            duration || (duration = 500);
+            if (!check || (check && ($container.offset().top - threshold) < window.scrollY)) {
+                $('html, body').animate({scrollTop : ($container.offset().top - threshold)}, duration);
+            }
+        },
+		/**
+		 * Throttling function callbacks to fire at a given timeout.
+		 * Useful for event tracking (such as scrolling or resizing)
+		 * to prevent firing callback every 1ms.
+		 *
+		 * @param fn
+		 * @param threshold
+		 * @param scope
+		 * @returns {Function}
+		 */
+		throttle : function(fn, threshold, scope) {
+			var last, deferTimer;
+			threshold || (threshold = 250);
+			return function() {
+				var context = scope || this;
+				var now = +new Date, args = arguments;
+
+				if (last && now < last + threshold) {
+					// hold on to it
+					clearTimeout(deferTimer);
+					deferTimer = setTimeout(function () {
+						last = now;
+						fn.apply(context, args);
+					}, threshold);
+				} else {
+					last = now;
+					fn.apply(context, args);
+				}
+			};
+		}
+	};
+}).call(UiKit, window.jQuery);
+
+/* ========================================================================
+ * Bootstrap: transition.js v3.0.0
+ * http://twbs.github.com/bootstrap/javascript.html#transitions
+ * ========================================================================
+ * Copyright 2013 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ======================================================================== */
+
++function ($) {
+	"use strict";
+
+	// CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+	// ============================================================
+
+	function transitionEnd() {
+		var el = document.createElement('bootstrap')
+
+		var transEndEventNames = {
+			'WebkitTransition': 'webkitTransitionEnd',
+			'MozTransition': 'transitionend',
+			'OTransition': 'oTransitionEnd otransitionend',
+			'transition': 'transitionend'
+		}
+
+		for (var name in transEndEventNames) {
+			if (el.style[name] !== undefined) {
+				return { end: transEndEventNames[name] }
+			}
+		}
+	}
+
+	// http://blog.alexmaccaw.com/css-transitions
+	$.fn.emulateTransitionEnd = function (duration) {
+		var called = false,
+            $el = this,
+            callback = function () {
+                if (!called) {
+                    $($el).trigger($.support.transition.end);
+                }
+            };
+
+		$(this).one($.support.transition.end, function () {
+			called = true;
+		});
+		setTimeout(callback, duration);
+		return this
+	}
+
+	$(function () {
+		$.support.transition = transitionEnd()
+	})
+
+}(window.jQuery);
+
+String.prototype.toSnakeCase = function() {
+    var str = this.replace(/([A-Z])/g, function($1){return "-"+$1.toLowerCase();});
+    return str.charAt(0) === '-' ? str.substring(1) : str;
+};
+
 /**
  * UiKit Menu.js
  * Copyright 2014 UiKit.
@@ -11452,4 +12056,904 @@ if ( $.ajaxPrefilter ) {
             g.utilities.plugins.dataBinder.call(this, _namespace);
         });
     });
+}).call(window.UiKit, window.jQuery);
+
+/**
+ * UiKit custom-selects.js
+ * Copyright 2014 UiKit.
+ *
+ * Plugin to convert standard form selects
+ * into a custom variety.
+ *
+ * <div class="custom-styled-select">
+ <span class="custom-styled-outer"><span class="custom-styled-inner">Text</span></span>
+ <select name="some_name">...</select>
+ </div>
+ */
+(function($) {
+    "use strict";
+
+    var _namespace = 'CustomSelects',
+        g = this;
+
+    /**
+     * Builds the necessary markup for the custom selects
+     *
+     * @private
+     */
+    function _build() {
+        if (this.$housing && this.$housing.length) return false;
+
+        var $housing = $('<div class="custom-styled-select" />'),
+            $customStyledSpans = '<span class="outer"><span class="inner">' + this.$el.find(':selected').text() + '</span></span>';
+
+        // Set css props & apply
+        $housing.css({
+            'display' : 'inline-block',
+            'position' : 'relative'
+        });
+
+        // Apply spans and then set correct styles on select menu
+        this.$el.wrap($housing);
+        this.$el.before($customStyledSpans);
+        this.$el.css({
+            position : 'absolute',
+            opacity : 0,
+            left : 0,
+            top: 0
+        }).addClass('styled-select');
+
+        this.$housing = this.$el.parent();
+        this.$spanOuter = this.$housing.find('> span');
+        this.$spanInner = this.$spanOuter.find('> span');
+
+        // Set css props
+        this.$spanOuter.css({display : 'inline-block'});
+        this.$spanInner.css({display : 'inline-block'});
+
+        //Custom Options
+        if(this.options.customOptions) {
+            this.$optionList = $('<ul class="custom-options" />').appendTo(this.$housing.addClass('with-custom-options'));
+        }
+
+        _checkProperty.call(this);
+        this.$el.trigger('ready.' + _namespace);
+        return true;
+    }
+
+
+    /**
+     * Checks for disabled or readonly properties on the select
+     * menu itself.
+     *
+     * @private
+     */
+    function _checkProperty() {
+        this.$housing.removeClass('disabled readonly');
+        if (this.$el.prop('disabled')) {
+            this.$housing.addClass('disabled');
+        }
+
+        // handling for disabled selects
+        if (this.$el.prop('readonly')) {
+            this.$housing.addClass('readonly');
+        }
+    }
+
+
+    /**
+     * Binds all of the select events
+     *
+     * @private
+     */
+    function _bindEvents() {
+        var _self = this;
+        _self.$el.on('change.' + _namespace, function(e) {
+            _self.updateText();
+
+            if(_self.options.customOptions) {
+                var $li = _self.$optionList.find('li').eq(_self.$el.find(':selected').index());
+
+                if(_self.$el.data('customKey')) {
+                    if($li.length) {
+                        _self.scrollToItem($li);
+                    }
+                    _self.$el.data('customKey', false);
+                }
+
+                _self.$optionList.find('.activated').removeClass('activated');
+                _self.$optionList.find('.selected').removeClass('selected');
+                $li.addClass('selected');
+            }
+            return true;
+        }).on('keyup.' + _namespace, function(e) {
+            _self.updateText();
+        }).on('focus.' + _namespace, function(e) {
+            _self.$housing.addClass('focus');
+        }).on('blur.' + _namespace, function(e) {
+            _self.$housing.removeClass('focus');
+
+            if(_self.options.customOptions && _self.$spanOuter.hasClass('open')) {
+                var closeListFunction = function() {
+                    if(_self.$optionList.data('keep-open')) {
+                        if(!_self.$optionList.data('scrolling')) {
+                            g.utilities.debounce(closeListFunction, 100)();
+                        }
+                    } else {
+                        //e.stopPropagation();
+                        _self.$spanOuter.trigger('close.' + _namespace);
+                    }
+                }
+                g.utilities.debounce(closeListFunction, 100)();
+            }
+        });
+
+        if(this.options.customOptions) {
+            _bindOptionsEvents.call(_self);
+        }
+    }
+
+
+    function _bindOptionsEvents() {
+        var _self = this;
+        _self.$el.on('update.' + _namespace, function() {
+            _self.update.call(_self);
+        }).on('keydown.' + _namespace, function(e) {
+            _self.updateSelectionByKeyEvent(e);
+        }).trigger('update.' + _namespace);
+
+        //Binding events to each option item
+        _self.$optionList.on('mouseenter.' + _namespace, function() {
+            $(this).data('keep-open', true);
+        }).on('scroll.' + _namespace, function() {
+            _self.$optionList.data('scrolling', true);
+
+        }).on('mouseleave.' + _namespace, function() {
+            var $list = $(this);
+
+            if($list.data('scrolling')) {
+                _self.$el.trigger('focus');
+            }
+            $(this).data('keep-open', false).data('scrolling', false);
+        }).on('click.' + _namespace, 'li', function() {
+            var $clicked = $(this);
+
+            _self.$optionList.data('keep-open', false).data('scrolling', true).find('.selected').removeClass('selected');
+
+            _self.$el.val($clicked.addClass('selected').data('raw-value'));
+			
+			_self.$el.trigger('change');		
+
+            _self.$el.trigger('blur').trigger('focus');
+        }).on('mouseenter.' + _namespace, 'li', function() {
+            _self.$optionList.find('.activated').removeClass('activated');
+
+            return $(this).addClass('activated');
+        }).on('mouseleave.' + _namespace, 'li', function() {
+            return _self.$optionList.find('.activated').removeClass('activated');
+        });
+
+        // Binding events to the outerSpan as the trigger
+        _self.$spanOuter.on('click.' + _namespace, function() {
+            var disabled = _self.$el.prop('disabled');
+
+            if (!disabled) {
+
+                _self.$spanOuter.toggleClass('open');
+                if(_self.$spanOuter.hasClass('open')) {
+
+/*                    _self.$optionList.slideDown({
+                        complete: function() {
+                            _self.$optionList.find('.activated').removeClass('activated');
+                            _self.scrollToItem.call(_self, _self.$optionList.find('.selected').addClass('activated'));
+                        }
+                    });*/
+                    if ((_self.$housing.offset().top + _self.$housing.outerHeight() + _self.$optionList.outerHeight() + 20) > $(window).height() + $(window).scrollTop()) {
+                        _self.$optionList.addClass('overflowing');
+                    } else {
+                        _self.$optionList.removeClass('overflowing');
+                    }
+
+                } else {
+                   // _self.$optionList.slideUp();
+                }
+
+                _self.$optionList.toggleClass('open');
+
+            }
+
+            _self.$el.trigger('focus.' + _namespace);
+        }).on('close.' + _namespace, function(e) {
+            _self.$el.data('customed-click', false);
+            _self.$spanOuter.removeClass('open');
+            _self.$optionList.removeClass('open');
+        });
+    }
+
+    var CustomSelects = g.CustomSelects = function(el, options) {
+        this.$el = $(el);
+        this.options = $.extend({}, CustomSelects.defaults, options);
+        this.version = "1.1.0"; //@TODO bring this dynamic after encapsulating versions and dependencies using bower
+        if(_build.call(this)) {
+            _bindEvents.call(this);
+        }
+    };
+
+    CustomSelects.defaults = {
+        customOptions: true
+    };
+
+    CustomSelects.prototype = {
+        /**
+         *
+         * @param e
+         * @returns {*}
+         */
+        updateSelectionByKeyEvent: function(e) {
+            var _self = this,
+                w = e.which,
+                $activeOption = _self.$optionList.find('.activated');
+
+            $activeOption.removeClass('activated');
+
+            if (!_self.$optionList.hasClass('open')) {
+                if (w === 13 || w === 32 ) {
+                    e.preventDefault();
+                    return _self.$spanOuter.trigger('click');
+                }
+            } else {
+                if (w === 38) {
+                    e.preventDefault();
+                    if ($activeOption.length && $activeOption.index() > 0) {
+                        $activeOption.prev().addClass('activated');
+                    } else {
+                        _self.$optionList.find('li:last-child').addClass('activated');
+                    }
+                } else if (w === 40) {
+                    e.preventDefault();
+                    if ($activeOption.length && $activeOption.index() < _self.$optionList.find('li').length - 1) {
+                        $activeOption.next().addClass('activated');
+                    } else {
+                        _self.$optionList.find('li:first-child').addClass('activated');
+                    }
+                } else if (w === 27) {
+                    e.preventDefault();
+                    _self.$spanOuter.trigger('click');
+                } else if (w === 13 || w === 32) {
+                    e.preventDefault();
+                    $activeOption.trigger('click');
+                } else if (w === 9) {
+                    if (_self.$spanOuter.hasClass('open')) {
+                        _self.$spanOuter.trigger('close.' + _namespace);
+                    }
+                } else {
+                    _self.$el.data('customKey', w);
+                }
+
+                _self.scrollToItem(_self.$optionList.find('.activated'));
+            }
+        },
+
+
+        scrollToItem: function($toBeActivated) {
+            var _self = this;
+
+            if ($toBeActivated.length) {
+                var liTopPosition = $toBeActivated.position().top,
+                    liHeight = $toBeActivated.outerHeight(),
+                    currentListTopPosition = _self.$optionList.scrollTop();
+
+                if(liTopPosition < 0) {
+                    _self.$optionList.scrollTop(currentListTopPosition + liTopPosition);
+                } else if(liTopPosition + liHeight > _self.$optionList.innerHeight()) {
+                    _self.$optionList.scrollTop(currentListTopPosition + liTopPosition + liHeight - _self.$optionList.innerHeight());
+                }
+            }
+        },
+
+
+        update: function() {
+            var _self = this,
+                optsHtml = [];
+
+            if(_self.options.customOptions) {
+                if(typeof _self.$optionList == 'undefined') {
+                    _self.$optionList = $('<ul class="custom-options" />').appendTo(_self.$housing);
+                    _bindOptionsEvents.call(_self);
+                }
+                _self.$housing.addClass('with-custom-options');
+
+                _self.$el.find('option').each(function() {
+                    var $op = $(this),
+                        opAttributes,
+                        ndx,
+                        $li = $('<li />');
+
+
+                    if($op.prop('selected')) {
+                        $li.addClass("selected activated");
+                    }
+                    if($op.val()) {
+                        $li.attr('data-raw-value', $op.val());
+                    }
+                    
+/*
+                    for(ndx = 0; ndx < opAttributes.length; ndx++) {
+                        var attrName = opAttributes[ndx].name;
+                        if(attrName !== 'selected' && attrName !== 'value') {
+                            if(attrName.indexOf('data') == 0) {
+                                $op.attr(attrName, op.getAttribute(attrName));
+                            } else {
+                                $op.addClass(attrName + "-" +  op.getAttribute(attrName));
+                            }
+                        }
+                    }
+*/
+                    
+
+                    optsHtml.push($li.text($op.text()).get(0).outerHTML);
+                });
+
+
+                _self.$optionList.html(optsHtml.join(''));
+            } else {
+                if(typeof _self.$optionList != 'undefined') {
+                    _self.$optionList.empty();
+                }
+                _self.$housing.removeClass('with-custom-options');
+            }
+            _self.updateText();
+        },
+
+
+        updateText : function() {
+            this.$spanInner.text(this.$el.find(':selected').text());
+            _checkProperty.call(this);
+        },
+
+
+        select: function(value) {
+            if(typeof value == 'object') {
+                value = value.value;
+            }
+
+            this.$el.val(value);
+
+            //Custom Options
+            if(this.options.customOptions) {
+                this.update();
+            } else {
+                this.updateText();
+            }
+
+        },
+
+
+        insert: function(option) {
+            var value = option,
+                label = option;
+            if(typeof option == 'object') {
+                if(!option.hasOwnProperty('label') && !option.hasOwnProperty('value')) {
+                    throw 'You cannot insert an option without label nor value';
+                }
+
+                value = option.value || option.label;
+                label = option.label || option.value;
+            }
+
+            this.$el.append('<option value="{value}">{label}</option>'.replace('{label}', label).replace('{value}',value));
+
+            //Custom Options
+            if(this.options.customOptions) {
+                this.update();
+            } else {
+                this.updateText();
+            }
+        },
+
+
+        show : function() {
+            if(typeof this.$housing !== 'undefined') {
+                this.$housing.css({
+                    'display' : 'inline-block'
+                });
+            }
+        },
+
+
+        hide : function() {
+            if(typeof this.$housing !== 'undefined') {
+                //this.$housing.hide();
+            }
+        },
+
+
+        /**
+         * Resets the additional markup back to factory defaults
+         */
+        reset : function(newOptions) {
+            this.unset();
+
+            if(typeof newOptions !== 'undefined') {
+                this.options = newOptions;
+            }
+            if(_build.call(this)) {
+                _bindEvents.call(this);
+            }
+        },
+
+
+        /**
+         * Removes all markup injected
+         */
+        unset : function() {
+            if (!this.$el.hasClass('styled-select')) {
+                return;
+            }
+
+            if(this.options.customOptions) {
+                this.$housing.off('.' + _namespace);
+                this.$spanOuter.off('.' + _namespace);
+            }
+
+            var $select = this.$el.removeClass('styled-select')
+                .attr('style', '')
+                .off('.' + _namespace);
+            this.$housing.before($select).remove();
+
+            // clear out object data
+            this.$housing = null;
+            this.$spanOuter = null;
+            this.$spanInner = null;
+
+            this.$el.removeData(_namespace);
+        },
+
+
+        respond: function() {
+            return this;
+        }
+    };
+
+
+    // Plugin declaration/assignment
+    g.utilities.plugins.initializer.call(CustomSelects, _namespace);
+
+    $(function() {
+        /**
+         * Each element containing the attribute data-custom-selects will be bound to specific actions:
+         *
+         * If the attribute is empty or is not defined like in
+         * <select id="#selectDemo" data-custom-selects></select> then we initialize the custom select on that element.
+         *
+         * If the attribute contains an string, this will map an specific action like in:
+         * <button data-custom-selects="select" data-target="#selectDemo" data-value="0" /> then we execute:
+         * $("#selectDemo").CustomSelects('select', "0");
+         */
+        $('[data-custom-selects]').each(function() {
+            g.utilities.plugins.dataBinder.call(this, _namespace);
+        });
+    });
+
+}).call(window.UiKit, window.jQuery);
+
+
+;
+/**
+ * UiKit Accordion.js
+ * Version: 1.1.0
+ *
+ * Copyright {{YEAR}} UiKit.
+ */
+(function($) {
+    "use strict";
+
+	var _namespace = 'Accordion',
+        g = this;
+
+    /**
+     * Performs all the even binding on the current $el widget, for transitions, clicks, be it direct or delegated
+     *
+     * @private
+     */
+    function _bindEvents() {
+        var _self = this;
+        this.$el.on('click.' + _namespace, this.options.headers, function(e) {
+            _self.activate($(this));
+            e.preventDefault();
+        });
+        if($.support.transition) {
+            this.$el.on($.support.transition.end + '.' + _namespace, this.options.containers, function(e) {
+                var $c = $(e.target).removeClass(_self.options.transitioningClass),
+                    extras = { header: $c.data('controlledBy'), container: $c };
+
+                _self.busy = false;
+                if(e.target.offsetHeight <= 1) {
+                    _self.$el.trigger('inactive.' + _namespace, extras);
+                } else {
+                    _self.$el.trigger('active.' + _namespace, extras);
+                }
+            });
+        }
+    }
+
+
+    /**
+     * Returns the proper jQuery object by an object reference, the same jQuery identity or the index in number or string
+     *
+     * @param $h {object|number|string} the param reference of the header
+     * @return {object} the jQuery object wrapping the param reference
+     * @private
+     */
+    function _getHeaderReference($h) {
+        if(typeof $h == 'string') {
+            $h = parseInt($h);
+        }
+        if(typeof $h == 'number' && !isNaN($h)) {
+            $h = this.$headers.eq($h);
+        }
+        if(typeof $h == 'object' && !$h['jquery'] && $h.hasOwnProperty('index')) {
+            $h = this.$headers.eq($h['index']);
+        }
+        return $h;
+    }
+
+	/**
+	 * Constructor method
+	 */
+	var Accordion = g.Accordion = function(el, options) {
+		this.$el = $(el);
+		this.options = $.extend({}, Accordion.defaults, options);
+        this.version = "1.1.0"; //@TODO bring this dynamic after encapsulating versions and dependencies using bower
+		this.$headers = this.$el.find(this.options.headers).attr('role','tab');
+		this.$containers = this.$el.find(this.options.containers).attr('role', 'tabpanel');
+		this.busy = false;
+
+		_bindEvents.call(this);
+
+		// set data on the object
+		this.$el.trigger('ready.' + _namespace);
+
+        return this;
+	};
+
+	Accordion.defaults = {
+        'headers': '.accordion-header',
+        'containers': '.accordion-content',
+		'toggle': false,
+		'transitionSpeed': 500,
+		'activeClass' : g.hasOwnProperty('utilities') ? g.utilities.activeClass : 'ui-active',
+		'inactiveClass' : g.hasOwnProperty('utilities') ? g.utilities.inactiveClass : 'ui-inactive',
+		'transitioningClass' : g.hasOwnProperty('utilities') ? g.utilities.transitioningClass : 'ui-transitioning'
+	};
+
+	Accordion.prototype = {
+		/**
+		 * Activates a given header by its jQuery wrapper reference
+		 *
+		 * @param $header
+         * @returns the bound jQuery Wrapped $el element
+		 */
+		activate: function($header) {
+            var _self = this;
+
+            $header = _getHeaderReference.call(_self, $header);
+
+            if (this.busy) return _self.$el;
+			this.busy = true;
+
+			// check if toggling containers and collapse all
+			if (this.options.toggle && !$header.hasClass(_self.options.activeClass)) {
+				this.$headers.not($header).each(function() {
+					_self.collapse($(this));
+				});
+			}
+
+			// handle the current header
+			this[$header.hasClass(_self.options.activeClass) ? 'collapse' : 'expand']($header);
+
+            return _self.$el;
+		},
+
+
+        /**
+         * Collapses all opened tabs
+         *
+         * @returns the bound jQuery Wrapped $el element
+         */
+        collapseAll: function () {
+            var _self = this;
+            this.$headers.each(function() {
+                _self.collapse($(this));
+            });
+            return this.$el;
+        },
+
+
+		/**
+		 * Expands a given container based on the header
+		 *
+		 * @param $header jQuery
+		 */
+		expand: function($header) {
+			var _self = this,
+                $_c,
+                contentHeight = 0;
+
+            $header = _getHeaderReference.call(_self, $header);
+            $_c = $header.next(_self.$containers);
+			if (!$_c.length || $_c.hasClass(_self.options.activeClass)) return _self.$el;
+
+			// Calculate height before expanding
+            $_c.children().each(function(ndx, el) {
+                contentHeight +=  el.offsetHeight;
+            });
+			$_c.data('controlledBy', $header).css('height', contentHeight + 'px');
+
+			$header.addClass(_self.options.activeClass).attr('aria-expanded', true);
+
+            $_c.removeClass(_self.options.inactiveClass).addClass([_self.options.activeClass, _self.options.transitioningClass].join(' '));
+            return _self.$el;
+		},
+
+
+		/**
+		 * Collapses a given container based on the header
+		 *
+		 * @param $header jQuery
+		 */
+		collapse: function($header) {
+			var _self = this,
+                $_c,
+                contentHeight = 0;
+
+            $header = _getHeaderReference.call(_self, $header);
+            $_c = $header.next(_self.$containers);
+			if (!$_c.length || !$_c.hasClass(_self.options.activeClass)) return _self.$el;
+
+			// Calculate height before collapsing
+            $_c.children().each(function(ndx, el) {
+                contentHeight +=  el.offsetHeight;
+            });
+            $_c.data('controlledBy', $header).css('height', contentHeight + 'px');
+
+			$header.removeClass(_self.options.activeClass).attr('aria-expanded', false);
+
+            $_c.removeClass(_self.options.activeClass).addClass([_self.options.inactiveClass, _self.options.transitioningClass].join(' '));
+            return _self.$el;
+		},
+
+
+		/**
+		 * Resets accordion back to initial state
+		 */
+		reset : function() {
+			this.unset();
+            _bindEvents.call(this);
+            return this.$el;
+		},
+
+
+		/**
+		 * Unset all tab specific events and element displays
+		 */
+		unset : function() {
+			this.$headers.removeClass(this.options.activeClass).removeAttr('role');
+			this.$containers.css('height', '').removeAttr('role').removeClass([this.options.activeClass, this.options.inactiveClass, this.options.transitioningClass].join(' '));
+			// remove events and data on root element
+            this.$el.off('click.' + _namespace);
+
+            if($.support.transition) {
+                this.$el.off($.support.transition.end + '.' + _namespace);
+            }
+
+            this.$el.removeData(_namespace);
+            return this.$el;
+		}
+	};
+
+	// Plugin declaration/assignment
+    g.utilities.plugins.initializer.call(Accordion, _namespace);
+
+	/**
+	 * Data api definition/setup/instantiation
+	 */
+	$(function() {
+		$('[data-accordion]').each(function() {
+            g.utilities.plugins.dataBinder.call(this, _namespace);
+		});
+	});
+}).call(window.UiKit, window.jQuery);
+
+(function($) {
+    "use strict";
+
+    var _namespace = 'Tray',
+        g = this;
+
+
+    /**
+     *  Binds necessary events
+     * @private
+     */
+    function _bindEvents() {
+        var _self = this;
+
+        // Bind close to shade
+        _self.$shadeSelector.on('click.' + _namespace + ' touch.' + _namespace, function(e){
+            var $openNav = $('.' + _namespace.toLowerCase() + '.' +  _self.options.activeClassName);
+
+            if($openNav.length > 0){
+                _self.close($openNav);
+            }
+        });
+    }
+
+    /**
+     * Displays the shade element (if available)
+     * @private
+     */
+    function _showShade() {
+        if(this.$shadeSelector.length) {
+            this.$shadeSelector.addClass(this.options.activeClassName);
+        }
+    }
+
+    /**
+     * Hides the shade element (if available)
+     * @private
+     */
+    function _hideShade() {
+        if(this.$shadeSelector.length) {
+            this.$shadeSelector.removeClass(this.options.activeClassName);
+        }
+    }
+
+    var Tray = g.Tray = function(el, options) {
+        this.el = el;
+        this.$el = $(el);
+        this.options = $.extend({}, Tray.defaults, options);
+        this.version = "1.0.0";
+
+        this.$shadeSelector = $(this.options.shadeSelector);
+
+        // Init
+        this.$el.addClass(_namespace.toLowerCase());
+        _bindEvents.call(this);
+
+        this.$el.trigger('ready.' + _namespace);
+    };
+
+    Tray.defaults = {
+        shadeSelector : '#shade',
+        addBodyClass :  true,
+        activeClassName: g.utilities.activeClass
+    };
+
+    Tray.prototype = {
+
+        toggle: function(){
+            var _self = this;
+
+            if(_self.busy){
+                return _self.$el;
+            }
+
+            if(_self.$el.hasClass(_self.options.activeClassName)){
+                _self.close();
+            }else{
+                _self.open();
+            }
+        },
+
+        /**
+         * Opens the tray instance
+         * @returns {*|jQuery|HTMLElement}
+         */
+        open : function(){
+            var _self = this;
+
+            if(this.busy){
+                return _self.$el;
+            }
+
+            this.busy = true;
+
+            this.$el.addClass(_self.options.activeClassName);
+            this.$el.trigger({type: 'open.' + _namespace, extra: {}});
+            _showShade.apply(this);
+
+            if(this.options.addBodyClass) {
+                $('html').addClass(_namespace.toLowerCase()).addClass(this.options.activeClassName);
+            }
+
+            g.utilities.checkTransition(this.$el, 'opened.' + _namespace, {}, function() {
+                _self.busy = false;
+            });
+
+            return this.$el;
+        },
+
+
+        /**
+         * Closes the tray instance
+         * @param $element
+         * @returns {*|jQuery|HTMLElement}
+         */
+        close : function(){
+            var _self = this;
+
+            if(this.busy){
+                return this.$el;
+            }
+
+            this.busy = true;
+
+            this.$el.removeClass(_self.options.activeClassName);
+            this.$el.trigger({type: 'close.' + _namespace, extra: {}});
+            _hideShade.apply(this);
+
+            if(this.options.addBodyClass) {
+                $('html').removeClass(_namespace.toLowerCase()).removeClass(this.options.activeClassName);
+            }
+
+            g.utilities.checkTransition(_self.$el, 'closed.' + _namespace, {}, function() {
+                _self.busy = false;
+            });
+
+            return this.$el;
+        },
+
+
+        /**
+         * Unsets the tray instance
+         * @returns {*|jQuery|HTMLElement}
+         */
+        unset : function(){
+            var data = this.$el.data(_namespace);
+
+            if(!data){
+                return this.$el;
+            }
+
+            this.busy = false;
+
+            this.el.style.display = '';
+            _hideShade.apply(this);
+
+            if(this.options.addBodyClass) {
+                $('html').removeClass(_namespace.toLowerCase()).removeClass(this.options.activeClassName);
+            }
+
+            this.$el.removeData(_namespace).removeClass('ui-' + _namespace.toLowerCase());
+
+            return this.$el;
+        },
+
+
+        /**
+         * Resets the tray instance
+         * @returns {*|jQuery|HTMLElement}
+         */
+        reset : function(){
+            if(!this.$el.data(_namespace)) {
+                this.unset();
+                _bindEvents.call(this);
+                return this.$el;
+            }
+        }
+    };
+
+    // Plugin declaration/assignment
+    g.utilities.plugins.initializer.call(Tray, _namespace);
+
+
+    // Data API definition/setup/instantiation
+
+    $(function() {
+        $('[data-tray]').each(function() {
+            g.utilities.plugins.dataBinder.call(this, _namespace);
+        });
+    });
+
 }).call(window.UiKit, window.jQuery);

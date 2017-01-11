@@ -78,9 +78,6 @@
                         $navigation.Tray();
                     }
 
-                    if(($fixed = $('#content')).length && $fixed.data('Fixed')){
-                        $fixed.Fixed('unset');
-                    }
 
                     if(($mobileAccordion = $('.gor-mobile-accordion')).length){
                         $mobileAccordion.Accordion();

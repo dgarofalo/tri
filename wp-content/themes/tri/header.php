@@ -33,6 +33,7 @@
 				<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu',  'container' => '' ) ); ?>
 			</div>
 		</nav>
+        <a href="#" class="button button-alternate button-donate"><?php _e( 'Donate', 'tri' ); ?></a>
 		<button id="hamburger" type="button" class="hamburger visible-md" data-tray="toggle" data-target="#masthead"><span class="line"></span><span class="line"></span><span class="line"></span></button>
 	</div>
 </header>

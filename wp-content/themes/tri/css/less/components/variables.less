@@ -12,6 +12,7 @@
 @gray-lighter:              lighten(@gray-base, 93.5%); // #eee
 
 @brand-primary:             #00afe9;
+
 @brand-secondary:           #999999;
 @brand-tertiary:            #666666;
 @brand-forth:               #333333;
@@ -47,11 +48,11 @@
 @font-size-small:           ceil((@font-size-base * 0.85)); // ~12px
 
 @font-size-h1:              floor((@font-size-base * 2.6)); // ~36px
-@font-size-h2:              floor((@font-size-base * 2.15)); // ~30px
-@font-size-h3:              ceil((@font-size-base * 1.7)); // ~24px
-@font-size-h4:              ceil((@font-size-base * 1.25)); // ~18px
-@font-size-h5:              @font-size-base;
-@font-size-h6:              ceil((@font-size-base * 0.85)); // ~12px
+@font-size-h2:              floor((@font-size-base * 1.7)); // ~24px
+@font-size-h3:              ceil((@font-size-base * 1.25)); // ~18px
+@font-size-h4:              @font-size-large;               // 16px
+@font-size-h5:              @font-size-base;                // 14px
+@font-size-h6:              @font-size-small;               // 12px
 
 @line-height-base:          1.43; // ~20/14
 @line-height-computed:      floor((@font-size-base * @line-height-base)); // ~20px
@@ -69,13 +70,13 @@
 @btn-default-color:             #ffffff;
 @btn-default-bg:                @brand-primary;
 @btn-default-border-color:      @brand-primary;
-@btn-default-font-weight:       normal;
+@btn-default-font-weight:       bold;
 
-@btn-default-padding:           16px 58px;
+@btn-default-padding:           12px 28px;
 @btn-default-font-size:         @font-size-base;
 @btn-default-line-height:       1em;
-@btn-default-border:            none;
-@btn-default-border-radius:     4px;
+@btn-default-border:            2px;
+@btn-default-border-radius:     12px;
 
 
 //
@@ -128,15 +129,15 @@
 @custom-radio-height:                   16px;
 @custom-radio-width:                    16px;
 @custom-radio-color:                    #666666;
-@custom-radio-icon:                     "\f10c";
-@custom-radio-icon-active:              "\f192";
+@custom-radio-icon:                     "\e910";
+@custom-radio-icon-active:              "\e90f";
 @custom-radio-icon-font-size:           16px;
 
 @custom-checkbox-height:                16px;
 @custom-checkbox-width:                 16px;
 @custom-checkbox-color:                 #666666;
-@custom-checkbox-icon:                  "\f096";
-@custom-checkbox-icon-active:           "\f046";
+@custom-checkbox-icon:                  "\e90e";
+@custom-checkbox-icon-active:           "\e90d";
 @custom-checkbox-icon-font-size:        16px;
 
 

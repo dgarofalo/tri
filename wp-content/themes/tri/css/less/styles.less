@@ -21,11 +21,22 @@ body{
 // --------------------------------------------------
 .masthead{
     &:extend(.clearfix all);
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid #e2e2e2;
     background-color: #ffffff;
 
     .logo{
-        width: 100px;
         float: left;
+        width: 54px;
+        padding: 22px 0;
+    }
+    .button-donate {
+        margin: 29px 0;
+        float: right;
     }
 }
 
@@ -33,7 +44,8 @@ body{
 // Navigation
 // --------------------------------------------------
 .navigation{
-    float: right;
+    float: left;
+    margin-left: 40px;
 
     ul{
         &:extend(.reset-list);
@@ -178,18 +190,15 @@ body{
     }
 }
 
+
 //
-// Pagination
+// Generic Section
 // --------------------------------------------------
-.pagination{
-    .buttons-set{
-        text-align: center;
-    }
-    .link{
-        display: inline-block;
-        vertical-align: top;
-    }
+.section{
+    padding-top: @line-height-computed;
+    padding-bottom: @line-height-computed;
 }
+
 
 //
 // Edit Links
@@ -302,7 +311,7 @@ body{
             float: none;
 
             a{
-                padding: 6px 5px!Important;
+                padding: 6px 5px;
             }
         }
         .links{

@@ -2,63 +2,6 @@
 // Typography
 // --------------------------------------------------
 
-@font-face {
-    font-family: 'Playfair';
-    src: url('../../../fonts/playfairdisplay-regular.eot');
-    src: url('../../../fonts/playfairdisplay-regular.eot?#iefix') format('embedded-opentype'),
-    url('../../../fonts/playfairdisplay-regular.woff2') format('woff2'),
-    url('../../../fonts/playfairdisplay-regular.woff') format('woff'),
-    url('../../../fonts/playfairdisplay-regular.ttf') format('truetype'),
-    url('../../../fonts/playfairdisplay-regular.svg#playfair_displayregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Playfair';
-    src: url('../../../fonts/playfairdisplay-italic.eot');
-    src: url('../../../fonts/playfairdisplay-italic.eot?#iefix') format('embedded-opentype'),
-    url('../../../fonts/playfairdisplay-italic.woff2') format('woff2'),
-    url('../../../fonts/playfairdisplay-italic.woff') format('woff'),
-    url('../../../fonts/playfairdisplay-italic.ttf') format('truetype'),
-    url('../../../fonts/playfairdisplay-italic.svg#playfair_displayregular') format('svg');
-    font-weight: normal;
-    font-style: italic;
-}
-@font-face{
-    font-family:"HelveticaNeueET";
-    src:url("../../../fonts/706ec8e5-fe4a-4518-91a6-7aba4d3d333f.eot?#iefix");
-    src:url("../../../fonts/706ec8e5-fe4a-4518-91a6-7aba4d3d333f.eot?#iefix") format("eot"),
-    url("../../../fonts/dc50c02f-3f77-4e75-b89c-e3f9bb4752e6.woff2") format("woff2"),
-    url("../../../fonts/ce6f5b38-1cb5-4a27-8182-583aa68b2436.woff") format("woff"),
-    url("../../../fonts/ff06cde7-e06a-4cf0-af4d-5b2f737bf544.ttf") format("truetype"),
-    url("../../../fonts/958b12cf-2908-4254-8cb9-9b12c3aa151e.svg#958b12cf-2908-4254-8cb9-9b12c3aa151e") format("svg");
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face{
-    font-family:"HelveticaNeueET";
-    src:url("../../../fonts/5935d076-bd6d-4ca4-b995-d739ffa09754.eot?#iefix");
-    src:url("../../../fonts/5935d076-bd6d-4ca4-b995-d739ffa09754.eot?#iefix") format("eot"),
-    url("../../../fonts/56e66f56-3016-44fd-84b2-8e40d9743656.woff2") format("woff2"),
-    url("../../../fonts/4d65bb6f-e667-4bd0-8e92-34e67bf6ac8b.woff") format("woff"),
-    url("../../../fonts/86631d82-6e27-4db2-988a-6b79a6c0d8ed.ttf") format("truetype"),
-    url("../../../fonts/205c950e-e47f-4d97-9738-0a68edc4258d.svg#205c950e-e47f-4d97-9738-0a68edc4258d") format("svg");
-    font-weight: normal;
-    font-style: italic;
-}
-@font-face{
-    font-family:"HelveticaNeueET";
-    src:url("../../../fonts/a95d2895-fa71-4ce7-bc1e-631169924be3.eot?#iefix");
-    src:url("../../../fonts/a95d2895-fa71-4ce7-bc1e-631169924be3.eot?#iefix") format("eot"),
-    url("../../../fonts/6dfa3ef5-ebc5-4d23-a631-b3d746c2ad39.woff2") format("woff2"),
-    url("../../../fonts/588c9ba8-1d28-4ad6-bf18-7128152d84c4.woff") format("woff"),
-    url("../../../fonts/55334dfb-9c72-4147-8de0-21239f17ff25.ttf") format("truetype"),
-    url("../../fonts/62455047-c81f-44f1-8938-7739fa0f0e8d.svg#62455047-c81f-44f1-8938-7739fa0f0e8d") format("svg");
-    font-weight: bold;
-    font-style: normal;
-}
-
-
 // Headings
 // -------------------------
 h1, h2, h3, h4, h5, h6,
@@ -104,65 +47,6 @@ p {
     a{
         font-weight: bold;
     }
-}
-
-blockquote{
-    float: right;
-    width: 60%;
-    font-size: 24px;
-    font-weight: bold;
-    margin: 1em -25% 1em 2em;
-
-    &.header-rule{
-        text-align: left;
-        float: none;
-        width: 55%;
-        margin: 40px auto;
-        font-weight: normal;
-
-        &:before{
-            margin: 0!important;
-        }
-        q{
-            &:extend(h2);
-            display: block;
-            margin-top: .75em;
-            font-size: @font-size-h3;
-            line-height: @line-height-base;
-        }
-        cite{
-            font-size: 12px;
-            font-weight: bold;
-            font-style: normal;
-            display: block;
-            line-height: 24px;
-        }
-    }
-}
-
-address{
-    font-style: normal;
-    line-height: @line-height-base;
-}
-
-figure{
-    figcaption{
-        &:extend(p all);
-        width: 55%;
-        margin: 40px auto;
-    }
-    blockquote{
-        float: none;
-
-        &.header-rule {
-            width: 100%;
-            margin: 0;
-        }
-    }
-}
-
-.content-box{
-    &:extend(figure figcaption);
 }
 
 
@@ -224,30 +108,4 @@ ol {
         margin: 1em 0;
         line-height: 1.8em;
     }
-    &.list__arrow{
-        list-style: none;
-        padding-left: 0;
-
-        li{
-            position: relative;
-            padding-left: 1.8em;
-
-            &:before{
-                position: absolute;
-                top: 0px;
-                left: 0;
-                &:extend(.icon);
-                content: "—";
-                font-size: 14px;
-                color: @gray-light;
-                font-weight: bold;
-            }
-        }
-    }
-}
-
-//legacy css classes
-.styled-list{
-    &:extend(.list all);
-    &:extend(.list.list__arrow all);
 }

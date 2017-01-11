@@ -24,9 +24,9 @@
 
 		<div class="footer-bottom">
 			<ul class="links social">
-				<li><a target="_blank" href="https://www.facebook.com/Gorilla-Group-159007067469949/"><i class="icon-facebook"></i></a></li>
-				<li><a target="_blank" href="https://twitter.com/gorillacommerce"><i class="icon-twitter"></i></a></li>
-				<li><a target="_blank" href="https://www.linkedin.com/company/gorilla"><i class="icon-linkedin"></i></a></li>
+				<li><a target="_blank" href="#"><i class="icon-facebook"></i></a></li>
+				<li><a target="_blank" href="#"><i class="icon-twitter"></i></a></li>
+				<li><a target="_blank" href="#"><i class="icon-linkedin"></i></a></li>
 			</ul>
 			<ul class="links extra">
 				<li><span class="copyright">©2016 <?php bloginfo( 'name' ); ?></span></li>

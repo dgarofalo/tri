@@ -142,7 +142,7 @@ add_action( 'widgets_init', 'tri_widgets_init' );
  */
 function tri_scripts() {
 	//Global CSS Files
-	wp_enqueue_style( 'tri-style', get_template_directory_uri() . '/css/build/min/uikit.min.css' );
+	wp_enqueue_style( 'tri-style', get_template_directory_uri() . '/css/build/uikit.css' );
 
 	//Global JS Files
 	wp_enqueue_script( 'tri-vendor', get_template_directory_uri() . '/js/build/vendor.js', array(), null, true );
