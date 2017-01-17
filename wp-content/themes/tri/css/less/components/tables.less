@@ -8,12 +8,7 @@
 .table{
     width: 100%;
     margin: @table-margin;
-    &.left {
-	    td,
-	    th {
-			 text-align: left;   
-	    }
-    }
+
     th{
         padding: @table-head-padding;
         border: @table-head-border;
@@ -28,61 +23,6 @@
         border: @table-cell-border;
         background-color: @table-cell-bg;
         text-align: @table-cell-align;
-
-        border-top: none;
-    }
-}
-
-.table-striped {
-    tbody tr:nth-of-type(even) td{
-	    .min-w(769px, {
-		    background-color: @table-cell-alt-bg;
-	    });
-    }
-    &.three-col {
-	    thead tr th {
-		    background-color: #fff;
-		    border-bottom: @table-cell-border;
-	    }
-	    tbody tr:nth-of-type(odd) td{
-		    .min-w(769px, {
-			    background-color: #fff;
-		    });
-	    }
-	    tbody tr:nth-of-type(even) td{
-		    .min-w(769px, {
-			    background-color: @table-cell-alt-bg;
-		    });
-	    }
-    }
-}
-
-.product-table {
-    th,
-    td{
-        border: none;
-    }
-    th{
-
-    }
-    td{
-        padding-top: 50px;
-        padding-bottom: 50px;
-        border-bottom: @table-cell-border;
-        vertical-align: top;
-    }
-
-    .product-image {
-        float: left;
-        width: @product-table-image-width;
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-    }
-    .product-info {
-        float: left;
-        margin-left: @product-table-margin;
     }
 }
 
@@ -94,11 +34,6 @@
         td{
             display: block;
             text-align: left;
-        }
-        tr:first-child{
-            td:first-child{
-                border-top: @table-cell-border;
-            }
         }
 
         // No headers if the no-headers class is present
@@ -114,81 +49,4 @@
             }
         }
     }
-    .product-table {
-        tr{
-            display: block;
-            padding: 20px 0;
-            border-top: @table-cell-border;
-
-            &:first-child{
-                border-top: none;
-            }
-        }
-        td{
-            text-align: center;
-            padding: 0;
-            border: none!important;
-        }
-        .product-image,
-        .product-info {
-            float: none;
-            display: block;
-            width: 100%;
-        }
-        .product-info {
-            margin: @product-table-margin 0 0 0;
-        }
-
-    }
-}
-.table {
-	float: left;
-	width: 100%;
-	margin-bottom: 80px;
-	.max-w(@screen-md, {
-        margin-bottom: 40px;
-    });
-	th {
-		color: @brand-primary;
-		font-weight: 700;
-		&.gray {
-			color: @gray-base;
-		}
-	}
-	.gray {
-		.min-w(769px, {
-	        width: 27%;
-        });
-		font-weight: 700;
-		position: relative;
-		&:before {
-			content: '';
-			width: 100%;
-			height: 100%;
-			left: 0;
-			top: 0;
-			position: absolute;
-			background: rgba(0,0,0,.04);
-		}
-	}
-	.orange {
-		color: @brand-primary;
-	}
-	th, td {
-		padding: 20px;
-		position: relative;
-		a {
-			position: absolute;
-			left: 0;
-			top: 0;
-			text-align: center;
-			width: 100%;
-			height: 100%;
-			background: @brand-primary;
-			color: #fff;
-			padding-top: 20px;
-			font-weight: 700;
-			text-transform: uppercase;
-		}
-	}
 }

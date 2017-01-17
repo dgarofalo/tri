@@ -6,9 +6,6 @@
 // Define Pagination
 // --------------------------------------------------
 .pagination{
-    list-style: none;
-    padding-left: 0;
-    text-indent: 0;
     &:extend(.clearfix all);
     &:extend(.reset-list all);
 
@@ -29,48 +26,18 @@
 
             &.previous,
             &.next{
-                width: 20px;
-                margin: 14px 0;
-                padding: 0;
-                //border: 1px solid #e1e1e1;
-                line-height: 20px;
-                text-align: center;
-                color: #d3ebc1;
-                background-color: @brand-primary;
-
-                &:hover,
-                &:focus {
-                    color: lighten(#d3ebc1, 20%);
-                }
+               &:extend(.button);
+               &:extend(.button-default);
             }
         }
         a{
             color: @pagination-color;
-
-            &:hover,
-            &:focus {
-                color: lighten(@pagination-color, 20%);
-            }
         }
 
         &.disabled{
             span{
                 cursor: not-allowed;
                 opacity: .5;
-            }
-            .previous,
-            .next{
-                opacity: 1;
-                width: 20px;
-                line-height: 18px;
-                border: 1px solid #e1e1e1;
-                color: #a9a9a9;
-                background-color: transparent;
-
-                &:hover,
-                &:focus {
-                    color: #a9a9a9;
-                }
             }
         }
         &.active{

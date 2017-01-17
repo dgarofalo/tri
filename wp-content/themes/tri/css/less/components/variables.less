@@ -43,19 +43,20 @@
 @font-weight-semi-bold:     normal;
 @font-weight-bold:          bold;
 
-@font-size-base:            14px;
-@font-size-large:           ceil((@font-size-base * 1.14)); // ~16px
-@font-size-small:           ceil((@font-size-base * 0.85)); // ~12px
+@font-size-root:            14px;
+@font-size-base:            1rem;
+@font-size-large:           1.14rem; // ~16px
+@font-size-small:           0.85rem; // ~12px
 
-@font-size-h1:              floor((@font-size-base * 2.6)); // ~36px
-@font-size-h2:              floor((@font-size-base * 1.7)); // ~24px
-@font-size-h3:              ceil((@font-size-base * 1.25)); // ~18px
-@font-size-h4:              @font-size-large;               // 16px
-@font-size-h5:              @font-size-base;                // 14px
-@font-size-h6:              @font-size-small;               // 12px
+@font-size-h1:              2.6rem; // ~36px
+@font-size-h2:              1.7rem; // ~24px
+@font-size-h3:              1.25rem; // ~18px
+@font-size-h4:              @font-size-large; // 16px
+@font-size-h5:              @font-size-base; // 14px
+@font-size-h6:              @font-size-small; // 12px
 
 @line-height-base:          1.43; // ~20/14
-@line-height-computed:      floor((@font-size-base * @line-height-base)); // ~20px
+@line-height-computed:      1.43rem; // ~20px
 
 @headings-font-family:      inherit;
 @headings-font-weight:      normal;
@@ -72,7 +73,7 @@
 @btn-default-border-color:      @brand-primary;
 @btn-default-font-weight:       bold;
 
-@btn-default-padding:           12px 28px;
+@btn-default-padding:           0.85rem 1.7rem;
 @btn-default-font-size:         @font-size-base;
 @btn-default-line-height:       1em;
 @btn-default-border:            2px;
@@ -103,22 +104,22 @@
 @input-validation-bg:                   #ffffff;
 @input-validation-border-color:         @brand-error;
 
-@input-default-padding:                 18px 28px;
-@input-default-font-size:               14px;
-@input-default-line-height:             18px;
+@input-default-padding:                 1.25rem;
+@input-default-font-size:               1rem;
+@input-default-line-height:             1.25em;
 @input-default-border:                  1px solid @input-default-border-color;
 @input-default-border-radius:           0;
 
-@input-default-vertical-spacing:        16px;
-@input-default-horizontal-spacing:      16px;
+@input-default-vertical-spacing:        1.14rem;
+@input-default-horizontal-spacing:      1.14rem;
 
 @text-area-height:                      226px;
 
 @validation-msg-color:                  #db2323;
-@validation-msg-font-size:              12px;
+@validation-msg-font-size:              @font-size-small;
 @validation-msg-line-height:            2em;
 @validation-msg-font-style:             normal;
-@validation-msg-padding:                6px 0 0 12px;
+@validation-msg-padding:                0.85rem 0 0 0.85rem;
 
 @inline-field-spacing:                  15px;
 @inline-field-width:                    45%;
@@ -126,19 +127,19 @@
 @inline-form-button-height:             54px;
 @inline-form-button-width:              120px;
 
-@custom-radio-height:                   16px;
-@custom-radio-width:                    16px;
+@custom-radio-height:                   @font-size-large;
+@custom-radio-width:                    @font-size-large;
 @custom-radio-color:                    #666666;
 @custom-radio-icon:                     "\e910";
 @custom-radio-icon-active:              "\e90f";
-@custom-radio-icon-font-size:           16px;
+@custom-radio-icon-font-size:           @font-size-large;
 
-@custom-checkbox-height:                16px;
-@custom-checkbox-width:                 16px;
+@custom-checkbox-height:                @font-size-large;
+@custom-checkbox-width:                 @font-size-large;
 @custom-checkbox-color:                 #666666;
 @custom-checkbox-icon:                  "\e90e";
 @custom-checkbox-icon-active:           "\e90d";
-@custom-checkbox-icon-font-size:        16px;
+@custom-checkbox-icon-font-size:        @font-size-large;
 
 
 //
@@ -178,22 +179,18 @@
 // Tables
 // --------------------------------------------------
 
-@table-margin:          0 0 10px 0;
+@table-margin:          0 0 0.85rem 0;
 
 @table-head-bg:         #f5f5f5;
-@table-head-padding:    16px 12px;
+@table-head-padding:    1.14rem 0.85rem;
 @table-head-align:      center;
 @table-head-border:     1px solid #ebebeb;
 
 @table-cell-bg:         #ffffff;
 @table-cell-alt-bg:     @table-head-bg;
-@table-cell-padding:    16px 12px;
+@table-cell-padding:    1.14rem 0.85rem;
 @table-cell-align:      center;
 @table-cell-border:     1px solid #ebebeb;
-
-@product-table-margin:  15px;
-@product-table-image-width: 50%;
-
 
 //
 // Messages
@@ -215,13 +212,13 @@
 @msg-error-bg:                    @brand-error;
 @msg-error-border-color:          transparent;
 
-@msg-default-padding:             12px;
-@msg-default-font-size:           14px;
+@msg-default-padding:             0.85rem;
+@msg-default-font-size:           @font-size-base;
 @msg-default-line-height:         1;
 @msg-default-border:              none;
 @msg-default-border-radius:       2px;
 
-@msg-default-vertical-spacing:    34px;
+@msg-default-vertical-spacing:    1.14rem;
 
 
 //
@@ -232,12 +229,12 @@
 @pagination-active-color:      @brand-primary;
 @pagination-bg:                transparent;
 
-@pagination-padding:           0 10px;
-@pagination-font-size:         @font-size-small;
+@pagination-padding:           0.85rem;
+@pagination-font-size:         @font-size-base;
 @pagination-font-family:       @font-family-base;
-@pagination-line-height:       48px;
+@pagination-line-height:       1em;
 @pagination-text-transform:    uppercase;
-@pagination-border:            none;
+@pagination-border:            2px solid transparent;
 @pagination-border-radius:     0;
 
 
@@ -246,7 +243,7 @@
 // --------------------------------------------------
 
 @breadcrumb-padding:        0;
-@breadcrumb-margin:         16px 0;
+@breadcrumb-margin:         1.14rem 0;
 @breadcrumb-bg:             transparent;
 @breadcrumb-font-size:      @font-size-small;
 @breadcrumb-separator:      '/';
@@ -262,9 +259,9 @@
 @thumbnail-bg:                  transparent;
 @thumbnail-border:              1px solid @brand-tertiary;
 @thumbnail-border-radius:       6px;
-@thumbnail-margin:              0 0 20px 0;
+@thumbnail-margin:              0 0 1.14rem 0;
 
-@thumbnail-copy-padding:        10px;
+@thumbnail-copy-padding:        0.85rem;
 
 
 //
@@ -309,6 +306,7 @@
 //
 // Menu
 // --------------------------------------------------
+
 @menu-link-padding: 44px 16px;
 @menu-link-hover: @gray-base;
 @menu-link-bg-hover: transparent;

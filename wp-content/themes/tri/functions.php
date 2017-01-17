@@ -155,6 +155,12 @@ function tri_scripts() {
 add_action( 'wp_enqueue_scripts', 'tri_scripts' );
 
 /**
+ * Remove wpautop
+ */
+remove_filter( 'the_content', 'wpautop' );
+remove_filter( 'the_excerpt', 'wpautop' );
+
+/**
  * Custom template tags for this theme.
  */
 require get_template_directory() . '/inc/template-tags.php';

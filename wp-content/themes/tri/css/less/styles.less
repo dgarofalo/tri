@@ -9,6 +9,7 @@
 html{
     position: relative;
     min-height: 100%; //sticky footer
+    font-size: @font-size-root; //rem
 }
 
 body{
@@ -150,44 +151,20 @@ body{
 // Banner
 // --------------------------------------------------
 .banner{
-    position: relative;
-    z-index: 10;
-    height: 430px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 12vh 25%;
+    overflow: hidden;
+
     color: #ffffff;
+    text-align: center;
 
-    .banner-img{
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 5;
-        opacity: 0;
-        transition: opacity .5s ease-out;
-
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center top;
-    }
-    .vertical-align{
-        position: relative;
-        z-index: 10;
-    }
-    h1{
-        margin-bottom: .25em;
-        line-height: 1.67em;
-        color: #ffffff;
-    }
-    p{
-        font-size: @font-size-large;
-        font-weight: @font-weight-bold;
-        line-height: 2em;
-        color: @brand-primary;
-    }
+    background-color: @brand-secondary;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: cover;
 }
 
 

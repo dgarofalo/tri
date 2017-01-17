@@ -78,16 +78,17 @@
 
 .buttons-set{
     & + .buttons-set{
-        margin-top: 10px;
+        margin-top: 0.85rem;
     }
-    .button + .button{
-        margin-left: 10px;
+    .button{
+        & + .button{
+            margin-left: 0.85rem;
+        }
     }
     .button-block{
-        margin-top: 10px;
-
-        &:first-child{
-            margin-top: 0;
+        & + .button-block{
+            margin-left: 0;
+            margin-top: 0.85rem;
         }
     }
 }
@@ -95,11 +96,5 @@
 @media screen and (max-width: @grid-float-breakpoint) {
     .button{
         .button-block;
-    }
-    .buttons-set{
-        .button + .button{
-            margin-left: 0;
-            margin-top: 10px;
-        }
     }
 }

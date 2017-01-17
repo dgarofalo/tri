@@ -4,7 +4,7 @@
     // Readied
     $(function() {
 
-        if(($lazy = $('.ui-lazy')).length) {
+        if(($lazy = $('.lazy')).length) {
             $lazy.unveil()
         }
 

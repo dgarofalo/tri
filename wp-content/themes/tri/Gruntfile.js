@@ -20,6 +20,20 @@ module.exports = function (grunt) {
                 'css/build/*'
             ]
         },
+        notify: {
+            css: {
+                options: {
+                    title: 'Dishes are done dude!',
+                    message: 'CSS files have compiled.'
+                }
+            },
+            js: {
+                options: {
+                    title: 'Dishes are done dude!',
+                    message: 'JS files have compiled.'
+                }
+            }
+        },
         //Combine our Javascript files.
 		concat: {
 			options: {
@@ -34,8 +48,9 @@ module.exports = function (grunt) {
                     'js/vendor/utilities.js',
                     'js/vendor/menu.js',
                     'js/vendor/custom-selects.js',
-                    'js/vendor/accordion.js',
-                    'js/vendor/tray.js'
+                    'js/vendor/tray.js',
+                    'js/vendor/accordion.js'
+
                 ],
 				dest: 'js/build/vendor.js'
 			},
@@ -145,6 +160,7 @@ module.exports = function (grunt) {
             js: {
                 files: [
                     'Gruntfile.js',
+                    'js/main.js',
                     'js/vendor/**/*.js'
                 ],
                 tasks: [
@@ -163,10 +179,10 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
 
     // JS task.
-    grunt.registerTask('build-js', ['clean:js', 'concat:vendor', 'concat:main', 'uglify:vendor', 'uglify:main']);
+    grunt.registerTask('build-js', ['clean:js', 'concat:vendor', 'concat:main', 'uglify:vendor', 'uglify:main', 'notify:js']);
 
     //CSS task.
-    grunt.registerTask('build-css', ['clean:css', 'less', 'autoprefixer', 'cssmin']);
+    grunt.registerTask('build-css', ['clean:css', 'less', 'autoprefixer', 'cssmin', 'notify:css']);
 
     //Build task.
     grunt.registerTask('build', ['build-js', 'build-css']);
