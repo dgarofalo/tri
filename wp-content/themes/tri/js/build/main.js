@@ -73,9 +73,13 @@
                     $('body').addClass('mobile');
 
                     //Navigation
-                    if (($navigation = $('#masthead')).length) {
+                    if (($navDesktop = $('#navigation')).length) {
                         //Mobile Navigation
-                        $navigation.Tray();
+                        $navDesktop.Menu('unset');
+                    }
+                    if (($navMobile = $('#masthead')).length) {
+                        //Mobile Navigation
+                        $navMobile.Tray();
                     }
 
 
@@ -87,9 +91,13 @@
                     $('body').removeClass('mobile');
 
                     //Navigation
-                    if(($navigation = $('#masthead')).length){
+                    if (($navDesktop = $('#navigation')).length) {
                         //Mobile Navigation
-                        $navigation.Tray('unset');
+                        $navDesktop.Menu();
+                    }
+                    if(($navMobile = $('#masthead')).length){
+                        //Mobile Navigation
+                        $navMobile.Tray('unset');
                     }
 
                     if(($mobileAccordion = $('.gor-mobile-accordion')).length){

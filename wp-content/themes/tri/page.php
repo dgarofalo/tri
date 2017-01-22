@@ -13,8 +13,7 @@
  */
 
 get_header(); ?>
-	<div class="container-fluid">
-        <?php
+    <?php
         while ( have_posts() ) : the_post();
 
             get_template_part( 'components/page/content', 'page' );
@@ -25,7 +24,6 @@ get_header(); ?>
             endif;
 
         endwhile; // End of the loop.
-        ?>
-	</div>
+    ?>
 <?php
 get_footer();

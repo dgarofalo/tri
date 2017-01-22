@@ -1,4 +1,7 @@
 .DS_STORE
 .vagrant
-node_modules/
+
+node_modules
+wp-content/uploads
+
 wp-config.php

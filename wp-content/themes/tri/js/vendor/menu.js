@@ -89,8 +89,8 @@
     };
 
 	Menu.defaults = {
-		'triggerSelector' : '.trigger',
-		'menuSelector' : '.drop-down',
+		'triggerSelector' : '.menu-item-has-children',
+		'menuSelector' : '.sub-menu',
 		'transitionSpeed' : 300,
 		'delay' : 0,
 		'useHI' : true,

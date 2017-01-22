@@ -28,12 +28,12 @@
 			<span class="sr-only"><?php bloginfo( 'name' ); ?></span>
 			<img src="<?php echo get_template_directory_uri().'/images/logo.svg' ?>" alt="<?php bloginfo( 'name' ); ?>" />
 		</a>
-		<nav id="navigation" class="navigation gor-nav" role="navigation">
+        <a href="#" class="button button-alternate button-donate"><?php _e( 'Donate', 'tri' ); ?></a>
+        <nav id="navigation" class="navigation ui-nav" role="navigation">
 			<div class="navigation__inner">
-				<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu',  'container' => '' ) ); ?>
+				<?php wp_nav_menu( array( 'menu_id' => '',  'container' => '', 'depth' => '2' ) ); ?>
 			</div>
 		</nav>
-        <a href="#" class="button button-alternate button-donate"><?php _e( 'Donate', 'tri' ); ?></a>
 		<button id="hamburger" type="button" class="hamburger visible-md" data-tray="toggle" data-target="#masthead"><span class="line"></span><span class="line"></span><span class="line"></span></button>
 	</div>
 </header>

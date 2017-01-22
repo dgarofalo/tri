@@ -49,7 +49,8 @@ module.exports = function (grunt) {
                     'js/vendor/menu.js',
                     'js/vendor/custom-selects.js',
                     'js/vendor/tray.js',
-                    'js/vendor/accordion.js'
+                    'js/vendor/accordion.js',
+                    'js/vendor/owl.carousel.js'
 
                 ],
 				dest: 'js/build/vendor.js'
