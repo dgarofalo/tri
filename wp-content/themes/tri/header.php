@@ -32,6 +32,7 @@
         <nav id="navigation" class="navigation ui-nav" role="navigation">
 			<div class="navigation__inner">
 				<?php wp_nav_menu( array( 'menu_id' => '',  'container' => '', 'depth' => '2' ) ); ?>
+				<a href="#" class="button button-alternate button-donate visible-md"><?php _e( 'Donate', 'tri' ); ?></a>
 			</div>
 		</nav>
 		<button id="hamburger" type="button" class="hamburger visible-md" data-tray="toggle" data-target="#masthead"><span class="line"></span><span class="line"></span><span class="line"></span></button>

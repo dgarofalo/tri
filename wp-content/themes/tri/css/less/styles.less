@@ -123,6 +123,8 @@ body{
         color: @brand-tertiary;
     }
     .links{
+        &:extend(.clearfix);
+
         > .menu-item {
             width: 33.33%;
             float: left;
@@ -161,9 +163,6 @@ body{
             margin: 0;
             padding: 5px 0;
         }
-    }
-    .footer-top{
-
     }
     .footer-bottom{
         margin-top: 25px;
@@ -234,16 +233,23 @@ body{
 // Mobile Breakpoint
 // --------------------------------------------------
 @media screen and (max-width: @grid-float-breakpoint) {
+    body {
+        padding-top: 76px;
+    }
     .masthead{
         overflow: hidden;
-        height: 66px;
-        transition: background 0.35s linear,height 0.35s ease-in;
+        height: 76px;
+        transition: background 0.35s linear, height 0.35s ease-in;
 
         .logo{
             position: relative;
             z-index: 999;
+            padding: 10px 0;
         }
-        &.gor-active{
+        .button-donate {
+            display: none;
+        }
+        &.ui-active{
             height: 100%;
         }
     }
@@ -253,7 +259,7 @@ body{
         top: 0;
         right: 0;
         width: 70px;
-        height: 60px;
+        height: 76px;
         margin: 0;
         padding: 25px 20px;
         border: none;
@@ -263,7 +269,7 @@ body{
             width: 100%;
             height: 2px;
             margin-top: 5px;
-            background-color: #ffffff;
+            background-color: @brand-primary;
 
             &:first-child {
                 margin-top: 0;
@@ -277,7 +283,6 @@ body{
         width: 100%;
         height: 100%;
         float: none;
-        background-color: #000000;
 
         .navigation__inner{
             position: absolute;
@@ -314,8 +319,10 @@ body{
     }
 
     .footer{
-        height: 284px; //sticky footer
-
+        .logo{
+            width: 200px;
+            margin: 0 auto 2.6rem;
+        }
         .social{
             float: none;
             margin-bottom: 10px;
@@ -328,12 +335,24 @@ body{
                 padding: 6px 5px;
             }
         }
+        .contact{
+            text-align: center;
+
+            h4{
+                padding: 10px 5px;
+            }
+        }
         .links{
             text-align: center;
 
             a{
                 display: block;
                 padding: 10px 5px;
+            }
+            > .menu-item {
+                width: 100%;
+                float: none;
+                text-align: center;
             }
         }
     }
@@ -346,10 +365,16 @@ body{
     }
 
     .banner {
-        height: 300px;
+        padding-left: 10%;
+        padding-right: 10%;
+    }
 
-        h1 {
-            font-size: 24px;
+    .section{
+        .row{
+            div[class^='col-md-'] {
+                padding-top: @line-height-computed;
+                padding-bottom: @line-height-computed;
+            }
         }
     }
 }

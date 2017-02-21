@@ -2460,6 +2460,7 @@ ol ol {
 .ui-carousel:after,
 .masthead,
 .navigation ul,
+.footer .links,
 .edit-link {
   *zoom: 1;
 }
@@ -2723,16 +2724,23 @@ body.logged-in .masthead {
   text-align: center;
 }
 @media screen and (max-width: 768px) {
+  body {
+    padding-top: 76px;
+  }
   .masthead {
     overflow: hidden;
-    height: 66px;
+    height: 76px;
     transition: background 0.35s linear, height 0.35s ease-in;
   }
   .masthead .logo {
     position: relative;
     z-index: 999;
+    padding: 10px 0;
   }
-  .masthead.gor-active {
+  .masthead .button-donate {
+    display: none;
+  }
+  .masthead.ui-active {
     height: 100%;
   }
   .hamburger {
@@ -2748,7 +2756,7 @@ body.logged-in .masthead {
     top: 0;
     right: 0;
     width: 70px;
-    height: 60px;
+    height: 76px;
     margin: 0;
     padding: 25px 20px;
     border: none;
@@ -2758,7 +2766,7 @@ body.logged-in .masthead {
     width: 100%;
     height: 2px;
     margin-top: 5px;
-    background-color: #ffffff;
+    background-color: #00afe9;
   }
   .hamburger .line:first-child {
     margin-top: 0;
@@ -2770,7 +2778,6 @@ body.logged-in .masthead {
     width: 100%;
     height: 100%;
     float: none;
-    background-color: #000000;
   }
   .navigation .navigation__inner {
     position: absolute;
@@ -2805,8 +2812,9 @@ body.logged-in .masthead {
   .navigation ul a:before {
     display: none;
   }
-  .footer {
-    height: 284px;
+  .footer .logo {
+    width: 200px;
+    margin: 0 auto 2.6rem;
   }
   .footer .social {
     float: none;
@@ -2819,12 +2827,23 @@ body.logged-in .masthead {
   .footer .extra a {
     padding: 6px 5px;
   }
+  .footer .contact {
+    text-align: center;
+  }
+  .footer .contact h4 {
+    padding: 10px 5px;
+  }
   .footer .links {
     text-align: center;
   }
   .footer .links a {
     display: block;
     padding: 10px 5px;
+  }
+  .footer .links > .menu-item {
+    width: 100%;
+    float: none;
+    text-align: center;
   }
   .footer-bottom {
     padding-top: 25px;
@@ -2834,10 +2853,12 @@ body.logged-in .masthead {
     margin-top: 20px;
   }
   .banner {
-    height: 300px;
+    padding-left: 10%;
+    padding-right: 10%;
   }
-  .banner h1 {
-    font-size: 24px;
+  .section .row div[class^='col-md-'] {
+    padding-top: 1.43rem;
+    padding-bottom: 1.43rem;
   }
 }
 /*# sourceMappingURL=uikit.css.map */
