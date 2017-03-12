@@ -154,6 +154,20 @@ function tri_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'tri_scripts' );
 
+
+function tri_page_categories() {
+	register_taxonomy(
+		'category',
+		'page',
+		array(
+			'hierarchical' => true,
+			'show_admin_column' => true,
+			'rewrite' => array( 'slug' => 'category' )
+		)
+	);
+}
+add_action( 'init', 'tri_page_categories' );
+
 /**
  * Remove wpautop
  */
