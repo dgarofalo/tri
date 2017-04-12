@@ -2740,6 +2740,15 @@ body.logged-in .masthead {
   margin-bottom: 20px;
   text-align: center;
 }
+.news-posts .row {
+  font-size: 0;
+}
+.news-post {
+  float: none;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 1rem;
+}
 .news-post h2 a {
   color: #333333;
 }

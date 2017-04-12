@@ -13,7 +13,7 @@ get_header(); ?>
 			single_post_title( '<h1 class="page-title">', '</h1>' );
 		?>
 	</div>
-	<section class="section">
+	<section class="section news-posts">
 		<div class="container-fluid">
 			<?php if ( have_posts() ) : ?>
 				<div class="row">
