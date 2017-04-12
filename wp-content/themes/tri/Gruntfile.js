@@ -43,6 +43,7 @@ module.exports = function (grunt) {
 				src: [
                     'js/vendor/jquery.js',
                     'js/vendor/jquery.validate.js',
+                    'js/vendor/jquery.hoverintent.js',
                     'js/vendor/unveil.js',
                     'js/vendor/respond.to.js',
                     'js/vendor/utilities.js',

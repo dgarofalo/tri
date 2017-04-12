@@ -2459,7 +2459,8 @@ ol ol {
 .pagination,
 .ui-carousel:after,
 .masthead,
-.navigation ul,
+.menu,
+.menu ul,
 .footer .links,
 .edit-link {
   *zoom: 1;
@@ -2476,8 +2477,10 @@ ol ol {
 .pagination:after,
 .masthead:before,
 .masthead:after,
-.navigation ul:before,
-.navigation ul:after,
+.menu:before,
+.menu:after,
+.menu ul:before,
+.menu ul:after,
 .edit-link:before,
 .edit-link:after {
   content: " ";
@@ -2490,7 +2493,8 @@ ol ol {
 .container-fluid:after,
 .pagination:after,
 .masthead:after,
-.navigation ul:after,
+.menu:after,
+.menu ul:after,
 .edit-link:after {
   clear: both;
 }
@@ -2512,7 +2516,8 @@ ol ol {
 .messages ul,
 .pagination,
 .links,
-.navigation ul,
+.menu,
+.menu ul,
 .footer ul {
   margin-bottom: 0;
   padding-left: 0;
@@ -2607,11 +2612,11 @@ body.logged-in .masthead {
   float: right;
   margin-right: 40px;
 }
-.navigation li {
+.menu > li {
   float: left;
   position: relative;
 }
-.navigation a {
+.menu > li > a {
   position: relative;
   display: block;
   padding: 44px 16px;
@@ -2622,17 +2627,18 @@ body.logged-in .masthead {
   line-height: 1;
   color: #000;
 }
-.navigation a:focus,
-.navigation a:hover {
+.menu > li > a:focus,
+.menu > li > a:hover {
   color: #000;
   background-color: transparent;
   text-decoration: none;
 }
-.navigation .sub-menu {
+.menu .sub-menu {
   position: absolute;
   z-index: 100;
   top: 100%;
   left: -20px;
+  margin-top: 1px;
   padding: 20px 40px;
   min-width: 250px;
   border: 1px solid #666666;
@@ -2641,6 +2647,17 @@ body.logged-in .masthead {
   transition: opacity .25s ease, visibility .25s ease;
   background: #fff;
   box-shadow: none;
+}
+.menu .sub-menu.ui-active {
+  visibility: visible;
+  opacity: 1;
+}
+.menu .sub-menu a {
+  display: block;
+  padding: 8px 0;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #000;
 }
 .footer {
   margin-top: 1.43rem;
@@ -2722,6 +2739,13 @@ body.logged-in .masthead {
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: center;
+}
+.news-post h2 a {
+  color: #333333;
+}
+.news-post .post-link {
+  display: block;
+  margin-top: 20px;
 }
 @media screen and (max-width: 768px) {
   body {

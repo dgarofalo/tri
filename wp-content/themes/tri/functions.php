@@ -154,7 +154,9 @@ function tri_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'tri_scripts' );
 
-
+/**
+ * Custom Taxonomy for Pages
+ */
 function tri_page_categories() {
 	register_taxonomy(
 		'category',
