@@ -2759,6 +2759,9 @@ body.logged-in .masthead {
 .news-post-detail h1 {
   margin-top: 0;
 }
+.news-post-detail .entry-meta {
+  margin-bottom: 1.43rem;
+}
 .news-post-detail .post-thumbnail {
   margin-top: 1.43rem;
   margin-bottom: 1.43rem;
