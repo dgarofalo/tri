@@ -14,29 +14,20 @@
 <footer id="footer" class="footer" role="contentinfo">
 	<div class="container-fluid">
 		<div class="footer-top row">
-            <div class="col-md-2">
-                <h4 class="logo">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-                        <span class="sr-only"><?php bloginfo( 'name' ); ?></span>
-                        <img src="<?php echo get_template_directory_uri().'/images/logo_alt.svg' ?>" alt="<?php bloginfo( 'name' ); ?>" />
-                    </a>
-                </h4>
-            </div>
-            <div class="col-md-8">
-                <ul class="links">
-                    <?php wp_nav_menu( array( 'menu' => 'footer-links', 'items_wrap'=>'%3$s',  'container' => false ) ); ?>
-                </ul>
-            </div>
-            <div class="col-md-2">
-                <div class="contact">
-                    <h4><?php _e( 'Contact', 'tri' ); ?></h4>
-                    <a class="link" href="mailto:info@toxoplasmosis.org">Email Us</a>
-                    <a class="link" href="tel:773-834-4130">773.834.4130</a>
-                    <p>5729 S Kimbark Ave, Chicago, IL 60637</p>
-                </div>
-            </div>
-        </div>
-
+			<div class="col-md-2">
+				<h4 class="logo">
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+						<span class="sr-only"><?php bloginfo( 'name' ); ?></span>
+						<img src="<?php echo get_template_directory_uri().'/images/logo_alt.svg' ?>" alt="<?php bloginfo( 'name' ); ?>" />
+					</a>
+				</h4>
+			</div>
+			<div class="col-md-10">
+				<ul class="links">
+					<?php wp_nav_menu( array( 'menu' => 'footer-links', 'items_wrap'=>'%3$s',  'container' => false ) ); ?>
+				</ul>
+			</div>
+		</div>
 		<div class="footer-bottom">
 			<ul class="links social">
 				<li><a target="_blank" href="#"><i class="icon-facebook"></i></a></li>
