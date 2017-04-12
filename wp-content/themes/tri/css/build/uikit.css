@@ -2671,7 +2671,7 @@ body.logged-in .masthead {
   color: #666666;
 }
 .footer .links > .menu-item {
-  width: 33.33%;
+  width: 25%;
   float: left;
 }
 .footer .links .sub-menu li {
