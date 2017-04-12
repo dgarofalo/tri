@@ -2747,6 +2747,38 @@ body.logged-in .masthead {
   display: block;
   margin-top: 20px;
 }
+.news-post-detail h1 {
+  margin-top: 0;
+}
+.news-post-detail .post-thumbnail {
+  margin-top: 1.43rem;
+  margin-bottom: 1.43rem;
+}
+.recent-posts {
+  padding: 1.43rem;
+  background: #fafafb;
+}
+.recent-posts h3 {
+  margin: 0;
+}
+.recent-posts h2 {
+  margin: 0;
+}
+.recent-posts ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.recent-posts li {
+  padding: 1.43rem 0;
+  border-top: 1px solid #ededee;
+}
+.recent-posts li:first-child {
+  border-top: 0;
+}
+.recent-posts a {
+  color: #333333;
+}
 @media screen and (max-width: 768px) {
   body {
     padding-top: 76px;

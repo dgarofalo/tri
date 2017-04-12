@@ -22,7 +22,6 @@
 				<?php the_title(); ?>
 			</a>
 		</h2>
-		<?php // get_template_part( 'components/post/content', 'meta' ); ?>
 		<div class="post-excerpt"><?php the_excerpt() ?></div>
 		<a class="post-link" href="<?php the_permalink(); ?>">Read More</a>
 	</header>
