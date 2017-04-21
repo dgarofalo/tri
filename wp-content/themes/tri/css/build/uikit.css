@@ -336,7 +336,7 @@ html {
 body {
   font-size: 1rem;
   font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-  line-height: 1.43;
+  line-height: 1.72;
   color: #333333;
   background-color: transparent;
   font-weight: normal;
@@ -509,7 +509,7 @@ pre {
   padding: 0.215rem;
   margin: 0 0 0.715rem;
   font-size: 0rem;
-  line-height: 1.43;
+  line-height: 1.72;
   word-break: break-all;
   word-wrap: break-word;
   color: #000000;
@@ -1717,8 +1717,7 @@ h6,
 .h3,
 .h4,
 .h5,
-.h6,
-.footer .links > .menu-item > a {
+.h6 {
   font-family: inherit;
   font-weight: normal;
   line-height: 1.1;
@@ -1731,20 +1730,18 @@ h6,
 h1,
 .h1 {
   font-size: 2.6rem;
-  font-family: 'Playfair Display SC', Georgia, "Times New Roman", Times, serif;
+  font-weight: bold;
 }
 h2,
 .h2 {
   font-size: 1.7rem;
-  font-family: 'Playfair Display SC', Georgia, "Times New Roman", Times, serif;
 }
 h3,
 .h3 {
   font-size: 1.25rem;
 }
 h4,
-.h4,
-.footer .links > .menu-item > a {
+.h4 {
   font-size: 1.14rem;
 }
 h5,
@@ -1755,9 +1752,10 @@ h6,
 .h6 {
   font-size: 0.85rem;
 }
-p {
+p,
+.news-post-detail .post-content {
   margin: 0 0 1.43rem;
-  line-height: 1.43;
+  line-height: 1.72;
 }
 p a {
   font-weight: bold;
@@ -2620,28 +2618,24 @@ body.logged-in .masthead {
   position: relative;
   display: block;
   padding: 44px 16px;
-  font-size: 0.85rem;
   font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: .05em;
   line-height: 1;
-  color: #000;
 }
 .menu > li > a:focus,
 .menu > li > a:hover {
-  color: #000;
   background-color: transparent;
   text-decoration: none;
 }
 .menu .sub-menu {
   position: absolute;
   z-index: 100;
-  top: 100%;
-  left: -20px;
+  top: 80%;
+  left: 0;
   margin-top: 1px;
   padding: 20px 40px;
   min-width: 250px;
-  border: 1px solid #666666;
+  border: 2px solid #00afe9;
+  border-radius: 12px;
   visibility: hidden;
   opacity: 0;
   transition: opacity .25s ease, visibility .25s ease;
@@ -2655,9 +2649,7 @@ body.logged-in .masthead {
 .menu .sub-menu a {
   display: block;
   padding: 8px 0;
-  font-size: 0.85rem;
   font-weight: bold;
-  color: #000;
 }
 .footer {
   margin-top: 1.43rem;
@@ -2668,11 +2660,16 @@ body.logged-in .masthead {
 }
 .footer a {
   display: block;
-  color: #666666;
+  font-weight: bold;
 }
 .footer .links > .menu-item {
   width: 25%;
   float: left;
+}
+.footer .links > .menu-item > a {
+  font-size: 1.14rem;
+  margin-top: 1.43rem;
+  margin-bottom: 1.43rem;
 }
 .footer .links .sub-menu li {
   display: block;
@@ -2768,7 +2765,8 @@ body.logged-in .masthead {
 }
 .recent-posts {
   padding: 1.43rem;
-  background: #fafafb;
+  border: 2px solid #00afe9;
+  border-radius: 12px;
 }
 .recent-posts h3 {
   margin: 0;

@@ -69,17 +69,11 @@ body{
 			display: block;
 			padding: @menu-link-padding;
 
-			font-size: @font-size-small;
 			font-weight: @font-weight-bold;
-			text-transform: uppercase;
-			letter-spacing: .05em;
 			line-height: 1;
-
-			color: @gray-base;
 
 			&:focus,
 			&:hover{
-				color: @menu-link-hover;
 				background-color: @menu-link-bg-hover;
 				text-decoration: none;
 			}
@@ -88,15 +82,15 @@ body{
 	.sub-menu{
 		position: absolute;
 		z-index: 100;
-		top: 100%;
+		top: 80%;
 		left: @menu-dropdown-position-offset;
 		margin-top: 1px;
 		padding: @menu-dropdown-padding;
 		min-width: @menu-dropdown-width;
 		border: @menu-dropdown-border;
+		border-radius: @btn-default-border-radius;
 
 		visibility: hidden;
-
 		opacity: 0;
 		transition: opacity .25s ease, visibility .25s ease;
 		background: @menu-dropdown-background;
@@ -109,9 +103,7 @@ body{
 		a {
 			display: block;
 			padding: 8px 0;
-			font-size: @font-size-small;
 			font-weight: @font-weight-bold;
-			color: @gray-base;
 		}
 	}
 }
@@ -136,7 +128,7 @@ body{
 	}
 	a{
 		display: block;
-		color: @brand-tertiary;
+		font-weight: bold;
 	}
 	.links{
 		&:extend(.clearfix);
@@ -146,7 +138,9 @@ body{
 			float: left;
 
 			> a{
-				&:extend(.h4);
+				font-size: @font-size-h4;
+				margin-top: @line-height-computed;
+				margin-bottom: @line-height-computed;
 			}
 		}
 		.sub-menu{
@@ -276,6 +270,9 @@ body{
 	.entry-meta {
 		margin-bottom: 1.43rem;
 	}
+	.post-content {
+		&:extend(p);
+	}
 	.post-thumbnail {
 		margin-top: 1.43rem;
 		margin-bottom: 1.43rem;
@@ -284,7 +281,8 @@ body{
 
 .recent-posts {
 	padding: 1.43rem;
-	background: #fafafb;
+	border: 2px solid @brand-primary;
+	border-radius: @btn-default-border-radius;
 
 	h3 {
 		margin: 0;
