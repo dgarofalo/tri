@@ -2789,6 +2789,30 @@ body.logged-in .masthead {
 .recent-posts a {
   color: #333333;
 }
+.article-body {
+  float: none;
+  margin: 0 auto;
+}
+.article-body img {
+  display: block;
+  margin-top: 1.43rem;
+  margin-bottom: 1.43rem;
+  clear: both;
+}
+.article-body img.aligncenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+.article-body img.alignleft {
+  float: left;
+  margin-left: 0;
+  margin-right: 1.43rem;
+}
+.article-body img.alignright {
+  float: left;
+  margin-left: 1.43rem;
+  margin-right: 0;
+}
 @media screen and (max-width: 768px) {
   body {
     padding-top: 76px;

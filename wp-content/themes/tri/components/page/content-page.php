@@ -14,23 +14,27 @@ $banner = has_post_thumbnail() ? the_post_thumbnail_url() : get_site_url() . '/w
         <h1><?php the_title(); ?></h1>
     </div>
     <div class="section container-fluid">
-        <?php
-            the_content();
+        <div class="row">
+            <div class="col-md-10 article-body">
+                <?php
+                    the_content();
 
-            wp_link_pages( array(
-                'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'tri' ),
-                'after'  => '</div>',
-            ) );
+                    wp_link_pages( array(
+                        'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'tri' ),
+                        'after'  => '</div>',
+                    ) );
 
-            edit_post_link(
-                sprintf(
-                /* translators: %s: Name of current post */
-                    esc_html__( 'Edit %s', 'tri' ),
-                    the_title( '<span class="screen-reader-text">"', '"</span>', false )
-                ),
-                '<span class="edit-link">',
-                '</span>'
-            );
-        ?>
+                    edit_post_link(
+                        sprintf(
+                        /* translators: %s: Name of current post */
+                            esc_html__( 'Edit %s', 'tri' ),
+                            the_title( '<span class="screen-reader-text">"', '"</span>', false )
+                        ),
+                        '<span class="edit-link">',
+                        '</span>'
+                    );
+                ?>
+            </div>
+        </div>
     </div>
 </article>
