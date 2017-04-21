@@ -19,7 +19,7 @@
         ) );
     ?>
 </div>
-<div class="section container-fluid">
+<div class="section news-posts container-fluid">
     <h2>Most Recent</h2>
     <div class="row">
         <?php
