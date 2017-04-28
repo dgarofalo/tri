@@ -2810,7 +2810,7 @@ body.logged-in .masthead {
   margin-right: 1.43rem;
 }
 .article-body img.alignright {
-  float: left;
+  float: right;
   margin-left: 1.43rem;
   margin-right: 0;
 }
